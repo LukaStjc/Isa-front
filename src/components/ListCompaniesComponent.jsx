@@ -14,7 +14,7 @@ class ListCompaniesComponent extends Component {
     componentDidMount(){
         CompanyService.getCompanies().then((res) => {
             this.setState({companies: res.data});
-        })
+        });
     }
     render() {
         return (
