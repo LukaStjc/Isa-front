@@ -8,6 +8,10 @@ class CompanyService{
         return axios.get(COMPANY_API_BASE_URL)
         
     }
+
+    createCompany(CompanyLocationDTO){
+        return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO)
+    }
 }
 
 export default new CompanyService();
