@@ -11,7 +11,7 @@ class CreateCompanyComponent extends Component {
             country: '',
             city: '',
             streetName: '',
-            streetNumber: '',
+            streetNumber: 0,
             // openingTime: '',
             // closingTime: '',
         }
@@ -50,13 +50,27 @@ class CreateCompanyComponent extends Component {
         this.setState({streetNumber: event.target.value})
     }
 
-    saveCompany=(e) =>{
+    saveCompany= async(e) =>{
         e.preventDefault();
         let company = {name: this.state.name, description: this.state.description, country: this.state.country, 
                        city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber}
         console.log('company =>' + JSON.stringify(company))
 
-        CompanyService.createCompany(company)
+        //CompanyService.createCompany(company).then(res =>{
+        //    this.props.history.push('/api/companies');
+        //});
+
+        //chatgpt verzija
+        try{
+            await CompanyService.createCompany(company)
+
+            this.props.history.push('/api/companies')
+        }catch(error){
+            console.error('Error creating company:', error);
+        }
+        
+        
+        //window.location.reload(); // jer nece da mi ucita komponent koji je na /api/companies putanji
     }
 
     render() {
