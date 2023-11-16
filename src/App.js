@@ -4,6 +4,8 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ListCompaniesComponent from './components/ListCompaniesComponent';
 import CreateCompanyComponent from './components/CreateCompanyComponent';
+import ListCompanyEquipmentComponent from './components/ListCompanyEquipmentComponent';
+import ListEquipmentComponent from './components/ListEquipmentComponent';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Switch>
         <Route path="/api/companies" component={ListCompaniesComponent} exact/>
         <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
+        <Route path="/api/equipment/company/:id" component={ListCompanyEquipmentComponent} exact />
+        <Route path="/api/equipment" component={ListEquipmentComponent} exact />
       </Switch>
     </Router>
 
