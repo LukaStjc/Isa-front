@@ -28,6 +28,16 @@
   color: #61dafb;
 }
 
+/* added to manipulate margins */
+.search-container { 
+  margin-bottom: 30px;
+  vertical-align: middle;
+}
+.search-container input {
+  margin-right: 10px; 
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
