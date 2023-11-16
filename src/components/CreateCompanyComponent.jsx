@@ -19,8 +19,8 @@ class CreateCompanyComponent extends Component {
             city: '',
             streetName: '',
             streetNumber: '',
-            openingTime: '',
-            // closingTime: '',
+            openingTime: null,
+            closingTime: null,
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this)
@@ -30,6 +30,7 @@ class CreateCompanyComponent extends Component {
         this.changeStreetNameHandler = this.changeStreetNameHandler.bind(this)
         this.changeStreetNumberHandler = this.changeStreetNumberHandler.bind(this)
         this.changeOpeningTimeHanler = this.changeOpeningTimeHanler.bind(this)
+        this.changeClosingTimeHandler = this.changeClosingTimeHandler.bind(this)
 
         this.saveCompany = this.saveCompany.bind(this)
     }
@@ -58,21 +59,27 @@ class CreateCompanyComponent extends Component {
         this.setState({streetNumber: event.target.value})
     }
 
-    changeOpeningTimeHanler=(event) =>{
-        this.setState({openingTime: event.target.value})
+    changeOpeningTimeHanler=(value) =>{
+        console.log(value)
+        this.setState({openingTime: value})
+    }
+
+    changeClosingTimeHandler=(value) =>{
+        this.setState({closingTime: value})
     }
 
     saveCompany= async(e) =>{
+        if(this.state.openingTime.isAfter(this.state.closingTime)){
+            console.log('Error: Opening time cannot be after closing time.');
+            return;
+        }
+
         e.preventDefault();
         let company = {name: this.state.name, description: this.state.description, country: this.state.country, 
-                       city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber}
+                       city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber,
+                       openingTime: this.state.openingTime, closingTime: this.state.closingTime}
         console.log('company =>' + JSON.stringify(company))
 
-        //CompanyService.createCompany(company).then(res =>{
-        //    this.props.history.push('/api/companies');
-        //});
-
-        //chatgpt verzija
         try{
             await CompanyService.createCompany(company)
 
@@ -82,11 +89,13 @@ class CreateCompanyComponent extends Component {
         }
         
         
-        window.location.reload(); // jer nece da mi ucita komponent koji je na /api/companies putanji
+        //window.location.reload(); // jer nece da mi ucita komponent koji je na /api/companies putanji
     }
 
     render() {
-        //const [selectedDate, handleTimeChange] = useState(new Date())
+        const buttonStyle = {
+            margin: '10px 0 0 0', // top right bottom left
+          };
 
         return (
             <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -132,9 +141,14 @@ class CreateCompanyComponent extends Component {
                                                 value={this.state.streetNumber} onChange={this.changeStreetNumberHandler}/>
                                     </div>
 
-                                    <TimePicker value={this.state.openingTime} onChange={this.changeOpeningTimeHanler}></TimePicker>
+                                    <div>
+                                        <label>Choose the opening time of this company:</label>
+                                        <TimePicker value={this.state.openingTime} onChange={this.changeOpeningTimeHanler} />
+                                        <label>Choose the closing time of this company:</label>
+                                        <TimePicker value={this.state.closingTime} onChange={this.changeClosingTimeHandler} />
+                                    </div>
                                         
-                                    <button className='btn btn-success' onClick={this.saveCompany}>Save</button>
+                                    <button className='btn btn-success btn' onClick={this.saveCompany} style={buttonStyle}>Save</button>
                                     {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
                                         Cancel
                                     </button>*/}
