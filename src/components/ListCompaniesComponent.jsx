@@ -10,7 +10,12 @@ class ListCompaniesComponent extends Component {
             companies: [],
             searchText: '' //
         }
+        this.showCompany = this.showCompany.bind(this);
     }
+    showCompany(id){
+        this.props.history.push('/${id}');
+    }
+
 
     componentDidMount() { //
         this.fetchCompanies();
@@ -36,30 +41,30 @@ class ListCompaniesComponent extends Component {
           <div>
             <h2 className='text-center'>Companies List</h2>
     
-            <div>
-
                 <div className='search-container'>
-                <input
-                    type='text'
-                    placeholder='Search...'
-                    value={this.state.searchText}
-                    onChange={(e) => this.setState({ searchText: e.target.value })}
-                />
-                <button onClick={this.handleSearch}>Search</button>
+                  <input
+                      type='text'
+                      placeholder='Search...'
+                      value={this.state.searchText}
+                      onChange={(e) => this.setState({ searchText: e.target.value })}
+                  />
+                  <button onClick={this.handleSearch}>Search</button>
                 </div>
 
                 <div className='row'>
-                <table className='table table-striped table-bordered'>
-                </table>
+                  <table className='table table-striped table-bordered'>
+                  </table>
                 </div>
-            </div>
-    
+            
             <div className='row'>
               <table className='table table-striped table-bordered'>
                 <thead>
                   <tr>
                     <th>Company name</th>
                     <th>Company description</th>
+                    <th>Average score</th>
+                    <th>Details</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -68,6 +73,8 @@ class ListCompaniesComponent extends Component {
                       <td>{company.name}</td>
                       <td>{company.description}</td>
                       <td>{company.averageScore}</td>
+                      <button onClick={() => this.showCompany(company.id)} className='btn-btn-info'>Show</button>
+
                     </tr>
                   ))}
                 </tbody>
