@@ -69,12 +69,13 @@ class CreateCompanyComponent extends Component {
     }
 
     saveCompany= async(e) =>{
+        e.preventDefault();
+
         if(this.state.openingTime.isAfter(this.state.closingTime)){
             console.log('Error: Opening time cannot be after closing time.');
             return;
         }
-
-        e.preventDefault();
+        
         let company = {name: this.state.name, description: this.state.description, country: this.state.country, 
                        city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber,
                        openingTime: this.state.openingTime, closingTime: this.state.closingTime}
@@ -148,7 +149,7 @@ class CreateCompanyComponent extends Component {
                                         <TimePicker value={this.state.closingTime} onChange={this.changeClosingTimeHandler} />
                                     </div>
                                         
-                                    <button className='btn btn-success btn' onClick={this.saveCompany} style={buttonStyle}>Save</button>
+                                    <button className='btn btn-success' onClick={this.saveCompany} style={buttonStyle}>Save</button>
                                     {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
                                         Cancel
                                     </button>*/}
