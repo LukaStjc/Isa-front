@@ -32,7 +32,7 @@ class EquipmentOrderingComponent extends Component {
   render() {
     return (
       <>
-        <h2 className='text-center'>List of equipment</h2>
+        <h2 className='text-center'>List of equipment for ordering</h2>
 
         <div className='search-container'>
           <input
@@ -64,8 +64,8 @@ class EquipmentOrderingComponent extends Component {
                   <td>{equipment.name}</td>
                   <td>{equipment.description}</td>
                   <td>{equipment.equipmentType}</td>
-                  <td>{equipment.company.name}</td>
-                  <td>{equipment.company.averageScore}</td>
+                  <td>{equipment.name}</td>
+                  <td>{equipment.averageScore}</td>
                 </tr>
               ))}
             </tbody>
