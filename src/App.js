@@ -18,10 +18,10 @@ function App() {
       <Switch>
         <Route path="/api/companies" component={ListCompaniesComponent} exact/>
         <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
-        <Route path="/api/equipment/company/:id" component={ListCompanyEquipmentComponent} exact />
+        <Route path="/api/equipment/company/:id"  component={ListCompanyEquipmentComponent} exact />
         <Route path="/api/equipment" component={ListEquipmentComponent} exact />
         <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exactv/>
-        <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
+        <Route path="/api/companies/:id" component={ViewCompanyComponent} />
       </Switch>
     </Router>
 
