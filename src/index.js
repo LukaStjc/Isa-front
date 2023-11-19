@@ -6,9 +6,12 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // Na ovaj nacin salje po dva zahteva ka backendu i na taj nacin izazove gresku
+  // <React.StrictMode>
+  //   <App />
+  // </React.StrictMode>
+
     <App />
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

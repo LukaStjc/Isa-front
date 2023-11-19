@@ -3,12 +3,16 @@ import React from 'react'
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+
 import ListCompaniesComponent from './components/ListCompaniesComponent';
 import CreateCompanyComponent from './components/CreateCompanyComponent';
 import ListCompanyEquipmentComponent from './components/ListCompanyEquipmentComponent';
 import ListEquipmentComponent from './components/ListEquipmentComponent';
 import CreateCompanyAdminComponent from './components/CreateCompanyAdminComponent';
 import ViewCompanyComponent from './components/ViewCompanyComponent';
+import ActivateAccountComponent from './components/ActivateAccountComponent'; 
+import CreateUserComponent from './components/CreateUserComponent';
+
 
 function App() {
   return (
@@ -22,6 +26,9 @@ function App() {
         <Route path="/api/equipment" component={ListEquipmentComponent} exact />
         <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exactv/>
         <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
+        <Route path="/activate" component={ActivateAccountComponent} exact/>
+        <Route path="/signup" component={CreateUserComponent} exact/>
+
       </Switch>
     </Router>
 
