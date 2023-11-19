@@ -8,8 +8,9 @@ class EquipmentOrderingService {
     return axios.get(EQUIPMENT_ORDERING_API_BASE_URL);
   }
 
-  searchEquipmentBasic(name){
-    return axios.get(`${EQUIPMENT_ORDERING_API_BASE_URL}/search?name=${name}`);
+  searchEquipmentBasic(name, type, score){
+    //console.log(typeof score);
+    return axios.get(`${EQUIPMENT_ORDERING_API_BASE_URL}/search?name=${name}&type=${type}&score=${score}`);
   }
 
 }
