@@ -15,7 +15,9 @@ class ListCompaniesComponent extends Component {
     showCompany(id){
         this.props.history.push(`/api/companies/${id}`);
     }
-
+    updateCompany(id){
+      this.props.history.push(`/api/companies/update/${id}`);      
+    }
 
     componentDidMount() { //
         this.fetchCompanies();
@@ -58,6 +60,7 @@ class ListCompaniesComponent extends Component {
                     <th>Company description</th>
                     <th>Average score</th>
                     <th>Details</th>
+                    <th>Update</th>
 
                   </tr>
                 </thead>
@@ -69,6 +72,10 @@ class ListCompaniesComponent extends Component {
                       <td>{company.averageScore}</td>
                       <td>
                         <button onClick={() => this.showCompany(company.id)} className='btn-btn-info'>Show</button>
+                        </td>
+                        <td>
+                        <button onClick={() => this.updateCompany(company.id)} className='btn-btn-info'>Update</button>
+
                         </td>
 
                     </tr>

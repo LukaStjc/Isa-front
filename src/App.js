@@ -9,6 +9,7 @@ import ListCompanyEquipmentComponent from './components/ListCompanyEquipmentComp
 import ListEquipmentComponent from './components/ListEquipmentComponent';
 import CreateCompanyAdminComponent from './components/CreateCompanyAdminComponent';
 import ViewCompanyComponent from './components/ViewCompanyComponent';
+import UpdateCompanyComponent from './components/UpdateCompanyComponent';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/api/companies" component={ListCompaniesComponent} exact/>
+        <Route path="/api/companies/update/:id" component={UpdateCompanyComponent} exact/>
         <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
         <Route path="/api/equipment/company/:id"  component={ListCompanyEquipmentComponent} exact />
         <Route path="/api/equipment" component={ListEquipmentComponent} exact />
