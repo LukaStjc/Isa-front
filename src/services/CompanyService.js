@@ -8,11 +8,21 @@ class CompanyService{
         
     }
     getCompanyById(companyId){
-        return axios.get(COMPANY_API_BASE_URL + '/' + companyId);
+        return axios.get(COMPANY_API_BASE_URL + '/' + companyId).catch(error => {
+            console.error('Error fetching company:', error);
+            if (error.response) {
+                console.log('Response data:', error.response.data);
+                console.log('Response status:', error.response.status);
+            }
+        });
+        ;
     }
     
     createCompany(CompanyLocationDTO){
         return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO)
+    }
+    updateCompany(companyId, CompanyLocationDTO){
+        return axios.put(COMPANY_API_BASE_URL+ '/update/' + companyId, CompanyLocationDTO)
     }
 
     searchCompanies(searchText) {
