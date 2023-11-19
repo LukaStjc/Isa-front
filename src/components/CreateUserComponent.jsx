@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 
 import RegisteredUserService from '../services/RegisteredUserService';
 
@@ -119,7 +119,7 @@ class CreateUserComponent extends Component {
           
 
         return (
-                <div className='container' style={{marginBottom: '15px', marginTop: '15ypx'}}>
+                <div className='container' style={{marginBottom: '15px', marginTop: '15px'}}>
                     <div className='row' >
                         <div className='card col-md-6 offset-md-3 offset-md-3'>
                             <h3 style={topMarginStyle} className='text-center'>Register User</h3>
