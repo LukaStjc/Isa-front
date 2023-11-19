@@ -17,31 +17,31 @@ class CreateCompanyAdminComponent extends Component {
             companiesToShow: ''
         }
 
-        this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this)
-        this.changeLastNameHandler = this.changeLastNameHandler.bind(this)
-        this.changeEmailHandler = this.changeEmailHandler.bind(this)
-        this.changePasswordHandler = this.changePasswordHandler.bind(this)
-        this.changeCompanyNameHandler = this.changeCompanyNameHandler.bind(this)
+        this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
+        this.changeLastNameHandler = this.changeLastNameHandler.bind(this);
+        this.changeEmailHandler = this.changeEmailHandler.bind(this);
+        this.changePasswordHandler = this.changePasswordHandler.bind(this);
+        this.changeCompanyNameHandler = this.changeCompanyNameHandler.bind(this);
     }
 
     changeFirstNameHandler=(event) =>{
-        this.setState({firstName: event.target.value})
+        this.setState({firstName: event.target.value});
     }
 
     changeLastNameHandler=(event) =>{
-        this.setState({lastName: event.target.value})
+        this.setState({lastName: event.target.value});
     }
 
     changeEmailHandler=(event) =>{
-        this.setState({email: event.target.value})
+        this.setState({email: event.target.value});
     }
 
     changePasswordHandler=(event) =>{
-        this.setState({password: event.target.value})
+        this.setState({password: event.target.value});
     }
 
     componentDidMount(){
-        this.showCompanyNames()
+        this.showCompanyNames();
     }
 
     showCompanyNames= async() =>{
@@ -54,30 +54,30 @@ class CreateCompanyAdminComponent extends Component {
     }
 
     changeCompanyNameHandler=(event) =>{
-        this.setState({companyName: event.target.value})
+        this.setState({companyName: event.target.value});
     }
 
     saveCompanyAdmin= async(e) =>{
-        e.preventDefault()
+        e.preventDefault();
 
         if(this.state.companyName === ""){
-            console.log("Warning: Company name is empty")
-            return
+            console.log("Warning: Company name is empty");
+            return;
         }
 
         const response = await CompanyService.findByName(this.state.companyName)
         if(response.data === false){
-            console.log("Error: The company name you tipped is wrong")
-            return
+            console.log("Error: The company name you tipped is wrong");
+            return;
         }
 
 
         let companyAdmin = {firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, 
-                            password: this.state.password, companyName: this.state.companyName}
-        console.log('company admin => ' + JSON.stringify(companyAdmin))
+                            password: this.state.password, companyName: this.state.companyName};
+        console.log('company admin => ' + JSON.stringify(companyAdmin));
 
         try{
-            await CompanyAdminService.createCompanyAdmin(companyAdmin)
+            await CompanyAdminService.createCompanyAdmin(companyAdmin);
 
         }catch(error){
             console.error('Error creating company admin:', error);

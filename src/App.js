@@ -12,7 +12,7 @@ import CreateCompanyAdminComponent from './components/CreateCompanyAdminComponen
 import ViewCompanyComponent from './components/ViewCompanyComponent';
 import ActivateAccountComponent from './components/ActivateAccountComponent'; 
 import CreateUserComponent from './components/CreateUserComponent';
-
+import EquipmentOrderingComponent from './components/EquipmentOrderingComponent'
 
 function App() {
   return (
@@ -22,13 +22,13 @@ function App() {
       <Switch>
         <Route path="/api/companies" component={ListCompaniesComponent} exact/>
         <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
-        <Route path="/api/equipment/company/:id" component={ListCompanyEquipmentComponent} exact />
+        <Route path="/api/equipment/company/:id"  component={ListCompanyEquipmentComponent} exact />
         <Route path="/api/equipment" component={ListEquipmentComponent} exact />
-        <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exactv/>
         <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
         <Route path="/activate" component={ActivateAccountComponent} exact/>
         <Route path="/signup" component={CreateUserComponent} exact/>
-
+        <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
+        <Route path="/api/equipment/ordering" component={EquipmentOrderingComponent} exact/>
       </Switch>
     </Router>
 

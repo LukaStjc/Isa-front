@@ -23,53 +23,62 @@ class CreateCompanyComponent extends Component {
             closingTime: null,
         }
 
-        this.changeNameHandler = this.changeNameHandler.bind(this)
-        this.changeDescriptionHandler = this.changeDescriptionHandler.bind(this)
-        this.changeCountryHandler = this.changeCountryHandler.bind(this)
-        this.changeCitynHandler = this.changeCitynHandler.bind(this)
-        this.changeStreetNameHandler = this.changeStreetNameHandler.bind(this)
-        this.changeStreetNumberHandler = this.changeStreetNumberHandler.bind(this)
-        this.changeOpeningTimeHanler = this.changeOpeningTimeHanler.bind(this)
-        this.changeClosingTimeHandler = this.changeClosingTimeHandler.bind(this)
+        this.changeNameHandler = this.changeNameHandler.bind(this);
+        this.changeDescriptionHandler = this.changeDescriptionHandler.bind(this);
+        this.changeCountryHandler = this.changeCountryHandler.bind(this);
+        this.changeCitynHandler = this.changeCitynHandler.bind(this);
+        this.changeStreetNameHandler = this.changeStreetNameHandler.bind(this);
+        this.changeStreetNumberHandler = this.changeStreetNumberHandler.bind(this);
+        this.changeOpeningTimeHanler = this.changeOpeningTimeHanler.bind(this);
+        this.changeClosingTimeHandler = this.changeClosingTimeHandler.bind(this);
 
-        this.saveCompany = this.saveCompany.bind(this)
+        this.saveCompany = this.saveCompany.bind(this);
     }
 
     changeNameHandler=(event) =>{
-        this.setState({name: event.target.value})
+        this.setState({name: event.target.value});
     }
 
     changeDescriptionHandler=(event) =>{
-        this.setState({description: event.target.value})
+        this.setState({description: event.target.value});
     }
 
     changeCountryHandler=(event) =>{
-        this.setState({country: event.target.value})
+        this.setState({country: event.target.value});
     }
 
     changeCitynHandler=(event) =>{
-        this.setState({city: event.target.value})
+        this.setState({city: event.target.value});
     }
 
     changeStreetNameHandler=(event) =>{
-        this.setState({streetName: event.target.value})
+        this.setState({streetName: event.target.value});
     }
 
     changeStreetNumberHandler=(event) =>{
-        this.setState({streetNumber: event.target.value})
+        this.setState({streetNumber: event.target.value});
     }
 
     changeOpeningTimeHanler=(value) =>{
-        console.log(value)
-        this.setState({openingTime: value})
+        this.setState({openingTime: value});
     }
 
     changeClosingTimeHandler=(value) =>{
-        this.setState({closingTime: value})
+        this.setState({closingTime: value});
     }
 
     saveCompany= async(e) =>{
         e.preventDefault();
+
+        if(this.state.openingTime === null){
+            console.log('Warning: Opening time is empty.');
+            return; 
+        }
+
+        if(this.state.closingTime === null){
+            console.log('Warning: Closing time is empty.');
+            return; 
+        }
 
         if(this.state.openingTime.isAfter(this.state.closingTime)){
             console.log('Error: Opening time cannot be after closing time.');
@@ -78,13 +87,13 @@ class CreateCompanyComponent extends Component {
         
         let company = {name: this.state.name, description: this.state.description, country: this.state.country, 
                        city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber,
-                       openingTime: this.state.openingTime, closingTime: this.state.closingTime}
-        console.log('company =>' + JSON.stringify(company))
+                       openingTime: this.state.openingTime, closingTime: this.state.closingTime};
+        console.log('company =>' + JSON.stringify(company));
 
         try{
-            await CompanyService.createCompany(company)
+            await CompanyService.createCompany(company);
 
-            this.props.history.push('/api/companies')
+            this.props.history.push('/api/companies');
         }catch(error){
             console.error('Error creating company:', error);
         }

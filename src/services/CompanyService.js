@@ -7,6 +7,9 @@ class CompanyService{
         return axios.get(COMPANY_API_BASE_URL)
         
     }
+    getCompanyById(companyId){
+        return axios.get(COMPANY_API_BASE_URL + '/' + companyId);
+    }
     
     createCompany(CompanyLocationDTO){
         return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO)
