@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import RegisteredUserService from '../services/RegisteredUserService';
 
 
@@ -89,28 +88,65 @@ class CreateUserComponent extends Component {
         this.setState({hospitalIdentificationNumber: event.target.value})
     }
 
-    saveUser= async(e) =>{
+    saveUser = async (e) => {
         e.preventDefault();
-
+    
+        
         if (this.state.password !== this.state.confirmPassword) {
-            
-            
+            alert("Passwords do not match");
             return;
         }
-
-        let user = {firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, password: this.state.password, occupation: this.state.occupation, telephoneNumber: this.state.telephoneNumber, country: this.state.country, 
-                       city: this.state.city, streetName: this.state.streetName, streetNumber: this.state.streetNumber, hospitalId: this.state.hospitalIdentificationNumber}
-        console.log('user =>' + JSON.stringify(user))
-
-        try{
-            await RegisteredUserService.createUser(user)
-
-            this.props.history.push('/signup')
-        }catch(error){
-            console.error('Error creating user:', error);
+    
+        const textFields = ['firstName', 'lastName', 'country', 'streetName', 'occupation', 'city'];
+        for (const field of textFields) {
+            if (!/^[a-zA-ZšđčćžŠĐČĆŽ\s]+$/.test(this.state[field])) {
+                alert(`${field} should contain only text`);
+                return;
+            }            
         }
-        
+    
+        if (!/^\S+@\S+\.\S+$/.test(this.state.email)) {
+            alert("Invalid email format");
+            return;
+        }
+    
+        const numberFields = ['telephoneNumber', 'streetNumber', 'hospitalIdentificationNumber'];
+        for (const field of numberFields) {
+            if (!/^\d+$/.test(this.state[field])) {
+                alert(`${field} should contain only numbers`);
+                return;
+            }
+        }
+    
+        let user = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+            occupation: this.state.occupation,
+            telephoneNumber: this.state.telephoneNumber,
+            country: this.state.country,
+            city: this.state.city,
+            streetName: this.state.streetName,
+            streetNumber: this.state.streetNumber,
+            hospitalId: this.state.hospitalIdentificationNumber
+        };
+    
+        console.log('user =>' + JSON.stringify(user));
+    
+        try {
+            await RegisteredUserService.createUser(user);
+    
+            alert("User successfully created!");
+    
+            this.props.history.push('/signup');
+        } catch (error) {
+            console.error('Error creating user:', error);
+
+            alert("Error creating user. Please try again.");
+        }
     }
+     
 
     render() {
         const topMarginStyle = {
