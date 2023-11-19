@@ -14,6 +14,8 @@ import ActivateAccountComponent from './components/ActivateAccountComponent';
 import CreateUserComponent from './components/CreateUserComponent';
 import EquipmentOrderingComponent from './components/EquipmentOrderingComponent'
 import UpdateCompanyComponent from './components/UpdateCompanyComponent';
+import UpdateCompanyAdminComponent from './components/UpdateCompanyAdminComponent';
+
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
         <Route path="/activate" component={ActivateAccountComponent} exact/>
         <Route path="/signup" component={CreateUserComponent} exact/>
         <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
+        <Route path="/api/company-admins/update/:id" component={UpdateCompanyAdminComponent} exact/>
         <Route path="/api/equipment/ordering" component={EquipmentOrderingComponent} exact/>
+        
       </Switch>
     </Router>
 
