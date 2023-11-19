@@ -12,7 +12,7 @@ class ListCompanyEquipments extends Component {
 
   componentDidMount() {
     const companyId = this.props.match.params.id;
-    EquipmentService.getEquipments(companyId).then((res) => {
+    EquipmentService.getCompanyEquipment(companyId).then((res) => {
       this.setState({ equipments: res.data });
     });
   }

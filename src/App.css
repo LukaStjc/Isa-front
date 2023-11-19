@@ -36,6 +36,10 @@
 .search-container input {
   margin-right: 10px; 
 }
+.password-mismatch {
+  border: 1px solid red;
+  color: red;
+}
 
 
 @keyframes App-logo-spin {
