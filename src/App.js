@@ -11,6 +11,8 @@ import CreateCompanyAdminComponent from './components/CreateCompanyAdminComponen
 import ViewCompanyComponent from './components/ViewCompanyComponent';
 import EquipmentOrderingComponent from './components/EquipmentOrderingComponent'
 import UpdateCompanyComponent from './components/UpdateCompanyComponent';
+import UpdateCompanyAdminComponent from './components/UpdateCompanyAdminComponent';
+
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
         <Route path="/api/equipment" component={ListEquipmentComponent} exact />
         <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
         <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
+        <Route path="/api/company-admins/update/:id" component={UpdateCompanyAdminComponent} exact/>
         <Route path="/api/equipment/ordering" component={EquipmentOrderingComponent} exact/>
+        
       </Switch>
     </Router>
 
