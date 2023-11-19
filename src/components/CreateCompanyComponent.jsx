@@ -70,6 +70,16 @@ class CreateCompanyComponent extends Component {
     saveCompany= async(e) =>{
         e.preventDefault();
 
+        if(this.state.openingTime === null){
+            console.log('Warning: Opening time is empty.');
+            return; 
+        }
+
+        if(this.state.closingTime === null){
+            console.log('Warning: Closing time is empty.');
+            return; 
+        }
+
         if(this.state.openingTime.isAfter(this.state.closingTime)){
             console.log('Error: Opening time cannot be after closing time.');
             return;
