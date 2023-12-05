@@ -80,7 +80,7 @@ class CreateCompanyAdminComponent extends Component {
             await CompanyAdminService.createCompanyAdmin(companyAdmin);
 
         }catch(error){
-            console.error('Error creating company admin:', error);
+            console.error('Error creating company admin: ', error);
         }
         
     }
