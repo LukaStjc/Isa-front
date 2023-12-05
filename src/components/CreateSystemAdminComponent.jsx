@@ -48,8 +48,7 @@ class CreateSystemAdminComponent extends Component {
             return;
         }
 
-        let systemAdmin = {firstName: this.state.firstName, lastName: this.state.lastName,
-                           email: this.state.email}
+        let systemAdmin = {firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email}
         console.log("system admin => " + JSON.stringify(systemAdmin));
 
         try{

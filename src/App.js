@@ -17,6 +17,7 @@ import UpdateCompanyComponent from './components/UpdateCompanyComponent';
 import UpdateCompanyAdminComponent from './components/UpdateCompanyAdminComponent';
 import SysAdminHomePageComponent from './components/SysAdminHomePageComponent';
 import CreateSystemAdminComponent from './components/CreateSystemAdminComponent';
+import UpdateSystemAdminPassword from './components/UpdateSystemAdminPassword';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/api/equipment/ordering" component={EquipmentOrderingComponent} exact/>
         <Route path="/api/home-page/system-admin" component={SysAdminHomePageComponent} exact/>
         <Route path="/api/system-admins/create" component={CreateSystemAdminComponent} exact/>
+        <Route path="/api/system-admins/update-password" component={UpdateSystemAdminPassword} exact/>
       </Switch>
     </Router>
 

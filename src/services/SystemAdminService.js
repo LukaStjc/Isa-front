@@ -8,5 +8,9 @@ class SystemAdminService{
         return axios.post(`${SYSTEM_ADMIN_API_BASE_URL}/create`, userDTO);
     }
 
+    updatePassword(userDTO){
+        return axios.put(`${SYSTEM_ADMIN_API_BASE_URL}/update-password`, userDTO);
+    }
+
 }
 export default new SystemAdminService();

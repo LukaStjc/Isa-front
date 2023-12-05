@@ -19,7 +19,7 @@ class SysAdminHomePageComponent extends Component {
     }
 
     changePassword(){
-        //this.props.history.push('/api/equipment/ordering');
+        this.props.history.push('/api/system-admins/update-password');
     }
 
     replyToComplaint(){
