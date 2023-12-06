@@ -19,7 +19,7 @@ import SysAdminHomePageComponent from './components/SysAdminHomePageComponent';
 import CreateSystemAdminComponent from './components/CreateSystemAdminComponent';
 import UpdateSystemAdminPassword from './components/UpdateSystemAdminPassword';
 import ListComplaintComponent from './components/ListComplaintComponent';
-import ReplyToComplaint from './components/ReplyToComplaint';
+import ReplyToComplaintComponent from './components/ReplyToComplaintComponent';
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
         <Route path="/api/system-admins/create" component={CreateSystemAdminComponent} exact/>
         <Route path="/api/system-admins/update-password" component={UpdateSystemAdminPassword} exact/>
         <Route path="/api/complaints" component={ListComplaintComponent} exact/>
-        <Route path="/api/complaints/reply/:id" component={ReplyToComplaint} exact />
+        <Route path="/api/complaints/reply/:id" component={ReplyToComplaintComponent} exact />
 
       </Switch>
     </Router>

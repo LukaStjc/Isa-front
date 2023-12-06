@@ -8,5 +8,10 @@ class ComplaintService{
         return axios.get(COMPLAINT_API_BASE_URL);
     }
 
+    saveReply(reply, id){
+        let object = {reply: reply}
+        axios.put(`${COMPLAINT_API_BASE_URL}/reply/${id}`, object);
+    }
+
 }
 export default new ComplaintService();
