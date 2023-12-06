@@ -18,13 +18,14 @@ class SysAdminHomePageComponent extends Component {
         this.props.history.push('/api/system-admins/create');
     }
 
+    viewAllComplaints(){
+        this.props.history.push('/api/complaints');
+    }
+
     changePassword(){
         this.props.history.push('/api/system-admins/update-password');
     }
 
-    replyToComplaint(){
-        //this.props.history.push('/api/equipment/ordering');
-    }
 
     render() {
         return (
@@ -55,7 +56,7 @@ class SysAdminHomePageComponent extends Component {
 
                             <div className='form-group d-flex justify-content-between'>
                                 <label>Reply to a complaint</label>
-                                <button onClick={() => this.replyToComplaint()} className='btn btn-primary'>Click Here</button>
+                                <button onClick={() => this.viewAllComplaints()} className='btn btn-primary'>Click Here</button>
                             </div>
 
                             <div className='form-group d-flex justify-content-between'>
