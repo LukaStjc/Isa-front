@@ -5,7 +5,7 @@ import ComplaintService from '../services/ComplaintService';
 
 class ListComplaintComponent extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state={
             complaints: []
