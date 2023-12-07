@@ -20,6 +20,8 @@ import CreateSystemAdminComponent from './components/CreateSystemAdminComponent'
 import UpdateSystemAdminPassword from './components/UpdateSystemAdminPassword';
 import ListComplaintComponent from './components/ListComplaintComponent';
 import ReplyToComplaintComponent from './components/ReplyToComplaintComponent';
+import CalendarViewWorkingDaysComponent from './components/CalendarViewWorkingDaysComponent';
+
 
 function App() {
   return (
@@ -43,13 +45,12 @@ function App() {
         <Route path="/api/system-admins/update-password" component={UpdateSystemAdminPassword} exact/>
         <Route path="/api/complaints" component={ListComplaintComponent} exact/>
         <Route path="/api/complaints/reply/:id" component={ReplyToComplaintComponent} exact />
+        <Route path="/api/company-admins/company-working-days" component={CalendarViewWorkingDaysComponent} exact/>
 
       </Switch>
     </Router>
 
     </div>
-    
-
   );
 }
 
