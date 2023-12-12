@@ -61,6 +61,7 @@ class CreateCompanyComponent extends Component {
 
     changeOpeningTimeHanler=(value) =>{
         this.setState({openingTime: value});
+        console.log("vreme: " + JSON.stringify(this.state.openingTime));
     }
 
     changeClosingTimeHandler=(value) =>{

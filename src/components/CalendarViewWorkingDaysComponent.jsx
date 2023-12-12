@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
-import CompanyAdminService from '../services/CompanyAdminService';
+import ReservationService from '../services/ReservationService';
 
 class CalendarViewWorkingDaysComponent extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class CalendarViewWorkingDaysComponent extends Component {
 
         this.state={
             selectedDate: dayjs(),
-            reservations: [],
+            reservations: [], // proveriti da li je ova lista null kad se dobavi od service
             showTable: false
         }
 
@@ -23,25 +23,30 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({selectedDate: newDate});
     }
 
-    viewSchedule(){
+    viewReservations(){
         this.setState({showTable: true});
+
+        const formattedDate = this.state.selectedDate.toISOString();
+        ReservationService.getReservationByDate(formattedDate).then((res) => {
+            this.setState({reservations: res.data});
+        });
+    }
+
+    viewReservationsByWeek(){
+
     }
 
     render() {
-        return (//TODO ukoliko u ponedeljak vidim da mi ne trebaju oba kalendara, treba izbrisati
+        return (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
-                <div className='form-group d-flex justify-content-between'>
-                    <DateCalendar value={this.state.selectedDate} onChange={this.changeDatesHandler}/>
-                    <DateCalendar
-                        defaultValue={dayjs('2022-04-17')}
-                        views={['month', 'year']}
-                        openTo="month"
-                    />
+                <DateCalendar value={this.state.selectedDate} onChange={this.changeDatesHandler}/>
+
+                <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
+                    <button onClick={() => this.viewReservations()} >Select Day</button>
+                    <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
                 </div>
-
-                <button onClick={() => this.viewSchedule()} style={{marginLeft: '150px'}}>Select</button>
-
+                
                 {this.state.showTable && (
                     <table className='table table-striped table-bordered' style={{marginTop: '100px'}}>
                         <thead>
@@ -57,7 +62,7 @@ class CalendarViewWorkingDaysComponent extends Component {
                             {this.state.reservations.map((reservation) => (
                                 <tr key={reservation.id}>
                                     <td>{reservation.startingTime}</td>
-                                    <td>{reservation.duration}</td>
+                                    <td>{reservation.durationMinutes}</td>
                                     <td>{reservation.name}</td>
                                     <td>{reservation.lastName}</td>
                                 </tr>
