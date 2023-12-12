@@ -23,17 +23,20 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({selectedDate: newDate});
     }
 
-    viewReservations(){
-        this.setState({showTable: true});
-
+    async viewReservations() {
+        this.setState({ showTable: true });
+    
         const formattedDate = this.state.selectedDate.toISOString();
-        ReservationService.getReservationByDate(formattedDate).then((res) => {
-            this.setState({reservations: res.data});
-        });
+        const res = await ReservationService.getReservationByDate(formattedDate, 0);
+        this.setState({ reservations: res.data });
     }
-
-    viewReservationsByWeek(){
-
+    
+    async viewReservationsByWeek() {
+        this.setState({ showTable: true });
+    
+        const formattedDate = this.state.selectedDate.toISOString();
+        const res = await ReservationService.getReservationByDate(formattedDate, 1);
+        this.setState({ reservations: res.data });
     }
 
     render() {
@@ -61,7 +64,13 @@ class CalendarViewWorkingDaysComponent extends Component {
                         <tbody>
                             {this.state.reservations.map((reservation) => (
                                 <tr key={reservation.id}>
-                                    <td>{reservation.startingTime}</td>
+                                    <td>{new Date(reservation.startingTime).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}</td>
                                     <td>{reservation.durationMinutes}</td>
                                     <td>{reservation.name}</td>
                                     <td>{reservation.lastName}</td>
