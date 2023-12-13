@@ -7,5 +7,9 @@ class ReservationService{
         return axios.get(`${RESERVATION_API_BASE_URL}?date=${date}&week=${showWeek}`);
     }
 
+    getReservationDaysByMonthAndYear(date){
+        return axios.get(`${RESERVATION_API_BASE_URL}/month-overview?date=${date}`);
+    }
+
 }
 export default new ReservationService();

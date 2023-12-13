@@ -3,6 +3,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import Badge from '@mui/material/Badge';
+import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 
 import ReservationService from '../services/ReservationService';
 
@@ -12,11 +14,51 @@ class CalendarViewWorkingDaysComponent extends Component {
 
         this.state={
             selectedDate: dayjs(),
-            reservations: [], // proveriti da li je ova lista null kad se dobavi od service
-            showTable: false
+            reservations: [],
+            showTable: false,
+            reservedDays: []
         }
 
         this.changeDatesHandler = this.changeDatesHandler.bind(this);
+        this.handleMonthAndYearChange = this.handleMonthAndYearChange.bind(this);
+        this.renderDay = this.renderDay.bind(this);
+    }
+
+    renderDay(props){
+        const {highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+
+        const isHighlighted = this.state.reservedDays.includes(props.day.date());
+
+        return (
+            <Badge
+              key={props.day.toString()}
+              overlap="circular"
+              badgeContent={isHighlighted ? '🌚' : undefined}
+            >
+              <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
+            </Badge>
+          );
+    }
+
+    async componentDidMount(){
+        const formattedDate = this.state.selectedDate.toISOString();
+        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
+    
+        const reservedDays = res.data.map((reservation) => reservation.date);
+    
+        this.setState({ reservedDays });
+    }
+
+    async handleMonthAndYearChange(newDate){
+        const formattedDate = newDate.format('YYYY-MM-DDThh:mm:ss.SSSZ');
+        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
+
+        const reservedDays = res.data;console.log("AAAAAAAAAA");console.log(reservedDays.length);
+        for(let i=0; i<reservedDays.length; i++){
+            console.log(reservedDays[i]);
+        }
+
+        this.setState({ reservedDays });
     }
 
     changeDatesHandler=(newDate) =>{
@@ -43,8 +85,18 @@ class CalendarViewWorkingDaysComponent extends Component {
         return (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
-                <DateCalendar value={this.state.selectedDate} onChange={this.changeDatesHandler}/>
-
+                <DateCalendar 
+                    value={this.state.selectedDate} 
+                    onChange={this.changeDatesHandler} 
+                    onMonthChange={this.handleMonthAndYearChange}
+                    onYearChange={this.handleMonthAndYearChange} 
+                    slots={{
+                        day: this.renderDay
+                      }}
+                    slotProps={{
+                        day: this.state.reservedDays
+                    }}
+                />
                 <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
                     <button onClick={() => this.viewReservations()} >Select Day</button>
                     <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
@@ -55,7 +107,7 @@ class CalendarViewWorkingDaysComponent extends Component {
                         <thead>
                             <tr>
                                 <th>Beginning of appointment</th>
-                                <th>Appointment duration</th>
+                                <th>Appointment duration minutes</th>
                                 <th>Appointment creator name</th>
                                 <th>Appointment creator last name</th>
                             </tr>
