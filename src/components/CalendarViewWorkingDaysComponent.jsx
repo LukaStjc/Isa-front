@@ -40,23 +40,21 @@ class CalendarViewWorkingDaysComponent extends Component {
           );
     }
 
-    async componentDidMount(){
-        const formattedDate = this.state.selectedDate.toISOString();
+    async UNSAFE_componentWillMount(){
+        const formattedDate = this.state.selectedDate.format('YYYY-MM-DD');
         const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
     
-        const reservedDays = res.data.map((reservation) => reservation.date);
+        const reservedDays = res.data;
     
         this.setState({ reservedDays });
     }
 
     async handleMonthAndYearChange(newDate){
-        const formattedDate = newDate.format('YYYY-MM-DDThh:mm:ss.SSSZ');
+        const formattedDate = newDate.format('YYYY-MM-DD');
+
         const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
 
-        const reservedDays = res.data;console.log("AAAAAAAAAA");console.log(reservedDays.length);
-        for(let i=0; i<reservedDays.length; i++){
-            console.log(reservedDays[i]);
-        }
+        const reservedDays = res.data;
 
         this.setState({ reservedDays });
     }
@@ -92,7 +90,7 @@ class CalendarViewWorkingDaysComponent extends Component {
                     onYearChange={this.handleMonthAndYearChange} 
                     slots={{
                         day: this.renderDay
-                      }}
+                    }}
                     slotProps={{
                         day: this.state.reservedDays
                     }}
