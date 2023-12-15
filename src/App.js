@@ -21,8 +21,8 @@ import UpdateSystemAdminPassword from './components/UpdateSystemAdminPassword';
 import ListComplaintComponent from './components/ListComplaintComponent';
 import ReplyToComplaintComponent from './components/ReplyToComplaintComponent';
 import CalendarViewWorkingDaysComponent from './components/CalendarViewWorkingDaysComponent';
-
-
+import CreateEquipmentComponent from './components/CreateEquipmentComponent';
+import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 function App() {
   return (
     <div className = "container">
@@ -46,7 +46,10 @@ function App() {
         <Route path="/api/complaints" component={ListComplaintComponent} exact/>
         <Route path="/api/complaints/reply/:id" component={ReplyToComplaintComponent} exact />
         <Route path="/api/company-admins/company-working-days" component={CalendarViewWorkingDaysComponent} exact/>
-
+        <Route path="/api/equipment/create/:id" component={CreateEquipmentComponent} exact />
+        <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
+        
+        
       </Switch>
     </Router>
 
