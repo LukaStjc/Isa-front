@@ -20,7 +20,8 @@ import CreateSystemAdminComponent from './components/CreateSystemAdminComponent'
 import UpdateSystemAdminPassword from './components/UpdateSystemAdminPassword';
 import ListComplaintComponent from './components/ListComplaintComponent';
 import ReplyToComplaintComponent from './components/ReplyToComplaintComponent';
-
+import CreateEquipmentComponent from './components/CreateEquipmentComponent';
+import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 function App() {
   return (
     <div className = "container">
@@ -43,7 +44,10 @@ function App() {
         <Route path="/api/system-admins/update-password" component={UpdateSystemAdminPassword} exact/>
         <Route path="/api/complaints" component={ListComplaintComponent} exact/>
         <Route path="/api/complaints/reply/:id" component={ReplyToComplaintComponent} exact />
-
+        <Route path="/api/equipment/create/:id" component={CreateEquipmentComponent} exact />
+        <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
+        
+        
       </Switch>
     </Router>
 
