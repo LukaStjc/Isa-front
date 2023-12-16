@@ -23,6 +23,7 @@ import ReplyToComplaintComponent from './components/ReplyToComplaintComponent';
 import CalendarViewWorkingDaysComponent from './components/CalendarViewWorkingDaysComponent';
 import CreateEquipmentComponent from './components/CreateEquipmentComponent';
 import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
+import TimeComponent from './components/TimeComponent';
 function App() {
   return (
     <div className = "container">

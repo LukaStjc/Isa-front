@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import CompanyService from '../services/CompanyService';
 import EquipmentService from '../services/EquipmentService';
+import TimeComponent from './TimeComponent';
+
 //import { useParams } from 'react-router-dom';
 
 
@@ -146,7 +148,15 @@ class ViewCompanyComponent extends Component {
                         <button onClick={() => this.updateCompany(this.state.companyId)} className='btn-btn-info'>EDIT</button>
 
                         <div>
-                            
+                            <h2>Predefined appointments</h2>
+                            <ul>
+                                {companyData.reservationDTOS.map(reservation => (
+                                    <li key={reservation.id}>
+                                        <TimeComponent date={reservation.startingTime} />
+                                        <p>Duration(in minutes): {reservation.durationMinutes}</p>
+                                    </li>
+                                ))}
+                            </ul>       
 
                         </div>
                     </div>
