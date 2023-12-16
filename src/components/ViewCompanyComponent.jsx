@@ -52,6 +52,9 @@ class ViewCompanyComponent extends Component {
         });
 
     }
+    createPredefinedReservation(companyId){
+        this.props.history.push(`/api/companies/${companyId}/create-reservation`)
+    }
 
     componentDidMount(){
         this.fetchCompany();
@@ -157,7 +160,8 @@ class ViewCompanyComponent extends Component {
                                     </li>
                                 ))}
                             </ul>       
-
+                        <button onClick={() => this.createPredefinedReservation(this.state.companyId)} className='btn-btn-info'>Add</button>
+    
                         </div>
                     </div>
                 ) : (
