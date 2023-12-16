@@ -8,26 +8,49 @@ class UpdateSystemAdminPassword extends Component {
         super(props)
 
         this.state = {
-            password: ''
+            oldPassword: '',
+            newPassword: '',
+            confirmedNewPassword: ''
         }
 
-        this.changePasswordHandler = this.changePasswordHandler.bind(this);
+        this.changeOldPasswordHandler = this.changeOldPasswordHandler.bind(this);
+        this.changeNewPasswordHandler = this.changeNewPasswordHandler.bind(this);
+        this.changeConfirmenNewPassword = this.changeConfirmenNewPassword.bind(this);
     }
 
-    changePasswordHandler=(e) =>{
-        this.setState({password: e.target.value});
+    changeOldPasswordHandler=(e) =>{
+        this.setState({oldPassword: e.target.value});
+    }
+
+    changeNewPasswordHandler=(e)=>{
+        this.setState({newPassword: e.target.value});
+    }
+
+    changeConfirmenNewPassword=(e)=>{
+        this.setState({confirmedNewPassword: e.target.value});
     }
 
     updatePassword= async(e) =>{
         e.preventDefault();
 
-        if(this.state.password === ""){
+        if(this.state.oldPassword === ""){
             console.log("Warning: Password field is empty");
             return;
         }
 
-        let userDTO = {firstName: null, lastName: null, email: null, password: this.state.password};
-        console.log("password => " + JSON.stringify(this.state.password));
+        let isCurrentPassword = await SystemAdminService.isCurrentPassword(this.state.oldPassword);
+        if(!isCurrentPassword.data){
+            console.log("Incorrect current password");
+            return;
+        }
+
+        if(this.state.newPassword !== this.state.confirmedNewPassword){
+            console.log("Incorrectly typed password confirmation");
+            return;
+        }
+
+        let userDTO = {firstName: null, lastName: null, email: null, password: this.state.newPassword};
+        console.log("password => " + JSON.stringify(this.state.newPassword));
 
         try{
             await SystemAdminService.updatePassword(userDTO);
@@ -45,9 +68,17 @@ class UpdateSystemAdminPassword extends Component {
                         <h3 className='text-center'>Change your password</h3>
                         <div className='card-body'>
                             <form>
+                                <label>Current password: </label>
+                                <input className='form-control' value={this.state.oldPassword} 
+                                    onChange={this.changeOldPasswordHandler}/>
+
                                 <label>New password: </label>
-                                <input className='form-control' value={this.state.password} 
-                                    onChange={this.changePasswordHandler}/>
+                                <input className='form-control' value={this.state.newPassword} 
+                                    onChange={this.changeNewPasswordHandler}/>
+
+                                <label>Confirm new password: </label>
+                                <input className='form-control' value={this.state.confirmedNewPassword} 
+                                    onChange={this.changeConfirmenNewPassword} type="password"/>
 
                                 <button className='btn btn-success' onClick={this.updatePassword} style={{marginTop: '10px'}}>Save</button>
                             </form>
