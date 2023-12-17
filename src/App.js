@@ -24,6 +24,7 @@ import CalendarViewWorkingDaysComponent from './components/CalendarViewWorkingDa
 import CreateEquipmentComponent from './components/CreateEquipmentComponent';
 import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 import CreatePredefinedReservation from './components/CreatePredefinedReservation';
+import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
 function App() {
   return (
     <div className = "container">
@@ -50,6 +51,7 @@ function App() {
         <Route path="/api/equipment/create/:id" component={CreateEquipmentComponent} exact />
         <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
         <Route path="/api/companies/:id/create-reservation" component={CreatePredefinedReservation} exact />
+        <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
         
         
         

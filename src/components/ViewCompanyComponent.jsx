@@ -32,6 +32,10 @@ class ViewCompanyComponent extends Component {
     editEquipment(equipmentId){
         this.props.history.push(`/api/equipment/update/${equipmentId}`)
     }
+    showCalendar(){
+        this.props.history.push(`/api/company-admins/company-working-days`)
+        
+    }
     removeEquipment(equipmentId){
         EquipmentService.deleteEquipment(equipmentId).then(() => {
             // Filter out the deleted equipment from the state
@@ -148,7 +152,7 @@ class ViewCompanyComponent extends Component {
                                 ))}
                             </ul>
                         </div>
-                        <button onClick={() => this.updateCompany(this.state.companyId)} className='btn-btn-info'>EDIT</button>
+                        <button onClick={() => this.updateCompany(this.state.companyId)} className='btn-btn-info'>Edit company</button>
 
                         <div>
                             <h2>Predefined appointments</h2>
@@ -163,6 +167,7 @@ class ViewCompanyComponent extends Component {
                         <button onClick={() => this.createPredefinedReservation(this.state.companyId)} className='btn-btn-info'>Add</button>
     
                         </div>
+                        <button onClick={() => this.showCalendar(this.state.companyId)} className='btn-btn-info'>Show Calendar</button>
                     </div>
                 ) : (
                     <p>Loading company details...</p>
