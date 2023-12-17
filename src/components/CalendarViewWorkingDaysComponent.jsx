@@ -7,6 +7,8 @@ import Badge from '@mui/material/Badge';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 
 import ReservationService from '../services/ReservationService';
+import CompanyAdminService from '../services/CompanyAdminService';
+import { jsx } from '@emotion/react';
 
 class CalendarViewWorkingDaysComponent extends Component {
     constructor(props) {
@@ -17,7 +19,8 @@ class CalendarViewWorkingDaysComponent extends Component {
             reservations: [],
             showTable: false,
             reservedDays: [],
-            id: 0
+            id: 0,
+            showCalendar: false
         }
 
         this.changeDatesHandler = this.changeDatesHandler.bind(this);
@@ -42,19 +45,34 @@ class CalendarViewWorkingDaysComponent extends Component {
           );
     }
 
-    async UNSAFE_componentWillMount(){
+    /*async UNSAFE_componentWillMount(){
         const formattedDate = this.state.selectedDate.format('YYYY-MM-DD');
-        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
+        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate, this.state.id);
     
         const reservedDays = res.data;
     
         this.setState({ reservedDays });
+    }*/
+
+    async umestoUCWM(){
+        const answer = await CompanyAdminService.doesExsist(this.state.id);
+        if(answer.data === false){
+            console.log("Not a valid id");
+            return;
+        }
+
+        const formattedDate = this.state.selectedDate.format('YYYY-MM-DD');
+        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate, this.state.id);
+    
+        const reservedDays = res.data;
+    
+        this.setState({ reservedDays, showCalendar: true });
     }
 
     async handleMonthAndYearChange(newDate){
         const formattedDate = newDate.format('YYYY-MM-DD');
 
-        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate);
+        const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate, this.state.id);
 
         const reservedDays = res.data;
 
@@ -69,7 +87,7 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({ showTable: true });
     
         const formattedDate = this.state.selectedDate.toISOString();
-        const res = await ReservationService.getReservationByDate(formattedDate, 0);
+        const res = await ReservationService.getReservationByDate(formattedDate, 0, this.state.id);
         this.setState({ reservations: res.data });
     }
     
@@ -77,13 +95,15 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({ showTable: true });
     
         const formattedDate = this.state.selectedDate.toISOString();
-        const res = await ReservationService.getReservationByDate(formattedDate, 1);
+        const res = await ReservationService.getReservationByDate(formattedDate, 1, this.state.id);
         this.setState({ reservations: res.data });
     }
 
     handleIdChange=(e) =>{
         this.setState({id: e.target.value});
     }
+
+
 
     render() {
         return (
@@ -97,24 +117,31 @@ class CalendarViewWorkingDaysComponent extends Component {
                     onChange={this.handleIdChange}
                     style={{ marginRight: '10px' }}
                     />
+
+                    <button onClick={() => this.umestoUCWM()} className='btn btn-success'>Confirm</button>
                 </div>
-                <DateCalendar 
-                    value={this.state.selectedDate} 
-                    onChange={this.changeDatesHandler} 
-                    onMonthChange={this.handleMonthAndYearChange}
-                    onYearChange={this.handleMonthAndYearChange} 
-                    slots={{
-                        day: this.renderDay
-                    }}
-                    slotProps={{
-                        day: this.state.reservedDays
-                    }}
-                />
-                <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
-                    <button onClick={() => this.viewReservations()} >Select Day</button>
-                    <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
-                </div>
+
+                {this.state.showCalendar && (
+                    <>
+                    <DateCalendar 
+                        value={this.state.selectedDate} 
+                        onChange={this.changeDatesHandler} 
+                        onMonthChange={this.handleMonthAndYearChange}
+                        onYearChange={this.handleMonthAndYearChange} 
+                        slots={{
+                            day: this.renderDay
+                        }}
+                        slotProps={{
+                            day: this.state.reservedDays
+                        }}
+                    />
                 
+                    <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
+                        <button onClick={() => this.viewReservations()} >Select Day</button>
+                        <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
+                    </div>
+                    </>
+                )}
                 {this.state.showTable && (
                     <table className='table table-striped table-bordered' style={{marginTop: '100px'}}>
                         <thead>
