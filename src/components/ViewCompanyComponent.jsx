@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import CompanyService from '../services/CompanyService';
 import EquipmentService from '../services/EquipmentService';
 import TimeComponent from './TimeComponent';
-
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import "leaflet/dist/leaflet.css";
+import { Icon } from '@mui/material';
+import L from 'leaflet';
 //import { useParams } from 'react-router-dom';
-
-
+import MarkerIcon from '../img/marker-icon.png'
 
 class ViewCompanyComponent extends Component {
     
@@ -99,6 +101,10 @@ class ViewCompanyComponent extends Component {
     render() {
         const { companyData } = this.state; // Destructuring companyData from state
     
+        const customIcon = new L.Icon({
+            iconUrl: MarkerIcon,
+            iconSize: [38, 38]
+        });
         return (
             <div>
                 <h1>Company Details</h1>
@@ -168,10 +174,21 @@ class ViewCompanyComponent extends Component {
     
                         </div>
                         <button onClick={() => this.showCalendar(this.state.companyId)} className='btn-btn-info'>Show Calendar</button>
+                    
+                    <div>
+
+                    </div>
+                            <MapContainer center={[companyData.location.latitude, companyData.location.longitude]} zoom={13}>
+                            <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[companyData.location.latitude, companyData.location.longitude]} icon={customIcon} />
+                            </MapContainer>
                     </div>
                 ) : (
                     <p>Loading company details...</p>
                 )}
+                
             </div>
         );
     }
