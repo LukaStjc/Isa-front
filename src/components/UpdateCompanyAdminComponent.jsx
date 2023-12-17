@@ -1,9 +1,7 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
-import CompanyService from '../services/CompanyService';
 import CompanyAdminService from '../services/CompanyAdminService';
 
 
@@ -60,10 +58,18 @@ class UpdateCompanyAdminComponent extends Component {
     updateCompanyAdmin= async(e) =>{
         e.preventDefault();
 
-        let admin = {firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, 
+        let admin = {email: this.state.email, firstName: this.state.firstName, lastName: this.state.lastName , 
                        password: this.state.password, companyName: ""};
         console.log('admin =>' + JSON.stringify(admin));
-        CompanyAdminService.updateCompanyAdmin(this.state.adminId, admin);
+
+        try{
+            await CompanyAdminService.updateCompanyAdmin(this.state.adminId, admin);
+            this.props.history.push('/api/company-admins/' + this.state.adminId);
+
+        }catch(error){
+            console.error('Error updating company admin:', error);
+
+        }
        
     }
 
