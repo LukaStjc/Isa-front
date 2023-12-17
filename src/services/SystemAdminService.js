@@ -12,5 +12,9 @@ class SystemAdminService{
         return axios.put(`${SYSTEM_ADMIN_API_BASE_URL}/update-password`, userDTO);
     }
 
+    isCurrentPassword(password){
+        return axios.get(`${SYSTEM_ADMIN_API_BASE_URL}/check-password?password=${password}`);
+    }
+
 }
 export default new SystemAdminService();

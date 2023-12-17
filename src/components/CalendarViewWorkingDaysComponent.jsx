@@ -16,12 +16,14 @@ class CalendarViewWorkingDaysComponent extends Component {
             selectedDate: dayjs(),
             reservations: [],
             showTable: false,
-            reservedDays: []
+            reservedDays: [],
+            id: 0
         }
 
         this.changeDatesHandler = this.changeDatesHandler.bind(this);
         this.handleMonthAndYearChange = this.handleMonthAndYearChange.bind(this);
         this.renderDay = this.renderDay.bind(this);
+        this.handleIdChange = this.handleIdChange.bind(this);
     }
 
     renderDay(props){
@@ -79,10 +81,23 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({ reservations: res.data });
     }
 
+    handleIdChange=(e) =>{
+        this.setState({id: e.target.value});
+    }
+
     render() {
         return (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
+                    <input
+                    type="number"
+                    value={this.state.id}
+                    onChange={this.handleIdChange}
+                    style={{ marginRight: '10px' }}
+                    />
+                </div>
                 <DateCalendar 
                     value={this.state.selectedDate} 
                     onChange={this.changeDatesHandler} 

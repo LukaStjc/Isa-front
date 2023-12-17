@@ -9,7 +9,7 @@ class ComplaintService{
     }
 
     saveReply(reply, id){
-        let object = {reply: reply}
+        let object = {reply: reply, id: 7}
         axios.put(`${COMPLAINT_API_BASE_URL}/reply/${id}`, object);
     }
 
