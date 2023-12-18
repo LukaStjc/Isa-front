@@ -18,6 +18,9 @@ class CompanyAdminHomeComponent extends Component {
     showCompany(id){
         this.props.history.push(`/api/companies/${id}`);
     }
+    showCalendar(){
+        this.props.history.push(`/api/company-admins/company-working-days`);
+    }
     componentDidMount() {
         CompanyAdminService.findBy(this.state.adminId)
         .then((res) => {
@@ -39,6 +42,9 @@ class CompanyAdminHomeComponent extends Component {
                 </div>
                 <div>
                     <button onClick={() => this.updateCompanyAdmin()} className='btn-btn-info'>Update company admin</button>
+                </div>
+                <div>
+                    <button onClick={() => this.showCalendar()} className='btn-btn-info'>Show calendar</button>
                 </div>
             </div>
         );
