@@ -155,11 +155,15 @@ class CreateUserComponent extends Component {
           
 
         return (
-                <div className='container' style={{marginBottom: '15px', marginTop: '15px'}}>
+                <div className='container' style={{marginBottom: '15px',   width: '800px', marginTop: '15px'}}>
                     <div className='row' >
                         <div className='card col-md-6 offset-md-3 offset-md-3'>
-                            <h3 style={topMarginStyle} className='text-center'>Register User</h3>
                             <div className='card-body'>
+                                <img
+                                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                    alt="profile-img"
+                                    className="profile-img-card"
+                                />
                                 <form>
                                 <div className='form-group'>
                                         <label>First name: </label>
@@ -255,7 +259,7 @@ class CreateUserComponent extends Component {
                                                 value={this.state.hospitalIdentificationNumber} onChange={this.changeHospitalIdentificationNumber}/>
                                     </div>
                                         
-                                    <button className='btn btn-success' onClick={this.saveUser} style={topMarginStyle}>Register</button>
+                                    <button className="btn btn-primary btn-block" onClick={this.saveUser} style={topMarginStyle}>Register</button>
 
                                 </form>
                             </div>
