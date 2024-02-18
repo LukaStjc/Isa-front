@@ -1,4 +1,6 @@
 import axios from 'axios';
+import authHeader from './auth-header'
+
 const RESERVATION_API_BASE_URL = "http://localhost:8082/api/reservations" ;
 
 class ReservationService{
@@ -13,6 +15,10 @@ class ReservationService{
     
     CreatePredefinedReservation(reservationDTO){
         return axios.post(RESERVATION_API_BASE_URL, reservationDTO);
+    }
+
+    createReservation(reservationByPremadeAppointmentDTO) { // Vasilije
+        return axios.post(RESERVATION_API_BASE_URL + '/create-by-premade-appointment', reservationByPremadeAppointmentDTO, { headers: authHeader() })
     }
 
 }

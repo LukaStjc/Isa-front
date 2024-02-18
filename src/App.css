@@ -115,3 +115,10 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+
+
+/* button color change during creating the reservation  */
+.btn.btn-primary.selectedButton {
+  background-color: green;
+  color: white;
+}
