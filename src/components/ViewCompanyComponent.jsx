@@ -4,7 +4,6 @@ import EquipmentService from '../services/EquipmentService';
 import TimeComponent from './TimeComponent';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import "leaflet/dist/leaflet.css";
-import { Icon } from '@mui/material';
 import L from 'leaflet';
 //import { useParams } from 'react-router-dom';
 import MarkerIcon from '../img/marker-icon.png'
@@ -230,9 +229,13 @@ class ViewCompanyComponent extends Component {
                                             <p>Type: {equipment.equipmentType}</p>
                                             <p>Price: {equipment.price}</p>
                                             <p>Quantity: {equipment.quantity}</p>
-                                            <button onClick={() => this.editEquipment(equipment.id)} className='btn btn-primary mr-1'>Edit</button>  
-                                            <button onClick={() => this.removeEquipment(equipment.id)} className='btn btn-primary mr-1'>Remove</button>    
-    
+                                            { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
+                                                <React.Fragment>
+                                                    <button onClick={() => this.editEquipment(equipment.id)} className='btn btn-primary mr-1'>Edit</button>  
+                                                    <button onClick={() => this.removeEquipment(equipment.id)} className='btn btn-primary mr-1'>Remove</button>    
+                                                </React.Fragment>
+                                            }
+
                                             {  user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
                                                 <React.Fragment>
                                                     <button onClick={() => this.selectEquipment(equipment.id)} className={`btn btn-primary ${this.state.selectedEquipment[equipment.id] >= 0 ? 'selectedButton' : ''} mr-1`}>Select</button>
@@ -258,7 +261,9 @@ class ViewCompanyComponent extends Component {
                                         </li>
                                     ))}
                                 </ul>
-                                <button onClick={() => this.addEquipment(this.state.companyId)} className='btn btn-primary mr-1'>Add new equipment</button>
+                                { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
+                                    <button onClick={() => this.addEquipment(this.state.companyId)} className='btn btn-primary mr-1'>Add new equipment</button>
+                                }
     
                             </div>
                             <div>
@@ -273,7 +278,10 @@ class ViewCompanyComponent extends Component {
                                     ))}
                                 </ul>
                             </div>
-                            <button onClick={() => this.updateCompany(this.state.companyId)} className='btn btn-primary mr-1'>Edit company</button>
+
+                            { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
+                                <button onClick={() => this.updateCompany(this.state.companyId)} className='btn btn-primary mr-1'>Edit company</button>
+                            }
     
                             <div>
                                 <h2>Predefined appointments</h2>
@@ -293,12 +301,17 @@ class ViewCompanyComponent extends Component {
                                     ))}
                                 </ul>       
                                 { user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
-                                (<button onClick={this.createReservation} className='btn btn-primary mr-1'>Create reservation</button>)
+                                    <button onClick={this.createReservation} className='btn btn-primary mr-1'>Create reservation</button>
                                 }
-                                <button onClick={() => this.createPredefinedReservation(this.state.companyId)} className='btn btn-primary mr-1'>Add</button>
+                            
+                                { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
+                                    <button onClick={() => this.createPredefinedReservation(this.state.companyId)} className='btn btn-primary mr-1'>Add predefined appointment</button>
+                                }
                                 
                             </div>
-                            <button onClick={() => this.showCalendar(this.state.companyId)} className='btn btn-primary mt-1 mb-1'>Show Calendar</button>
+                            { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
+                                <button onClick={() => this.showCalendar(this.state.companyId)} className='btn btn-primary mt-1 mb-1'>Show Calendar</button>
+                            }
                         
                         <div>
     
