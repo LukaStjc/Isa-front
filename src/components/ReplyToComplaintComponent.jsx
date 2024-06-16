@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 
 import ComplaintService from '../services/ComplaintService';
 
+import UserService from "../services/user.service";
+
 class ReplyToComplaint extends Component {
     constructor(props) {
         super(props);
 
         this.state={
             reply: '',
-            complaintId: props.match.params.id
+            complaintId: props.match.params.id,
+            content: ''
         }
 
         this.changeReplyHandler = this.changeReplyHandler.bind(this);
@@ -30,9 +33,37 @@ class ReplyToComplaint extends Component {
             console.log("Your reply is too long :(");
             return;
         }
+
+        console.log("reply => ", this.state.reply);
         
         ComplaintService.saveReply(this.state.reply, this.state.complaintId);
     }
+
+    componentDidMount() {
+        UserService.getSystemAdminBoard().then(
+          response => {
+            this.setState({
+              content: response.data
+            });
+          },
+          error => {
+            this.setState({
+              content:
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+    
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            //   EventBus.dispatch("logout");
+              this.props.history.push('/profile');
+              console.log("Error: Nemate potrebne privilegije za pristup stranici");
+            }
+          }
+        );
+      }
 
     render() {
         return (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ComplaintService from '../services/ComplaintService';
+import UserService from '../services/user.service';
 
 
 class ListComplaintComponent extends Component {
@@ -8,12 +9,37 @@ class ListComplaintComponent extends Component {
         super(props)
 
         this.state={
-            complaints: []
+            complaints: [],
+            content: ''
         }
 
     }
 
     componentDidMount(){
+        UserService.getSystemAdminBoard().then(
+            response => {
+              this.setState({
+                content: response.data
+              });
+            },
+            error => {
+              this.setState({
+                content:
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                  error.message ||
+                  error.toString()
+              });
+      
+              if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+              //   EventBus.dispatch("logout");
+                this.props.history.push('/profile');
+                console.log("Error: Nemate potrebne privilegije za pristup stranici");
+              }
+            }
+          );
+
         ComplaintService.getAll().then((res) => {
             this.setState({complaints: res.data});
         });

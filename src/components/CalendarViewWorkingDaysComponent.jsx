@@ -7,8 +7,9 @@ import Badge from '@mui/material/Badge';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 
 import ReservationService from '../services/ReservationService';
-import CompanyAdminService from '../services/CompanyAdminService';
 import { jsx } from '@emotion/react';
+
+import UserService from "../services/user.service";
 
 class CalendarViewWorkingDaysComponent extends Component {
     constructor(props) {
@@ -20,7 +21,8 @@ class CalendarViewWorkingDaysComponent extends Component {
             showTable: false,
             reservedDays: [],
             id: 0,
-            showCalendar: false
+            showCalendar: false,
+            content: ''
         }
 
         this.changeDatesHandler = this.changeDatesHandler.bind(this);
@@ -54,12 +56,45 @@ class CalendarViewWorkingDaysComponent extends Component {
         this.setState({ reservedDays });
     }*/
 
+    componentDidMount() {
+        UserService.getCompanyAdminBoard().then(
+            response => {
+            this.setState({
+                content: response.data
+            });
+            },
+            error => {
+            this.setState({
+                content:
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+    
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            //   EventBus.dispatch("logout");
+                this.props.history.push('/profile');
+                console.log("Error: Nemate potrebne privilegije za pristup stranici");
+            }
+            }
+        );
+
+        //ovde staviti pozivanje neke nove metode sa back-a koja ce da id-iju postavi vrednost ulogovanog korisnika
+        
+        this.umestoUCWM();
+    }
+
     async umestoUCWM(){
-        const answer = await CompanyAdminService.doesExsist(this.state.id);
-        if(answer.data === false){
-            console.log("Not a valid id");
-            return;
-        }
+        // const answer = await CompanyAdminService.doesExsist(this.state.id);
+        // if(answer.data === false){
+        //     console.log("Not a valid id");
+        //     return;
+        // }
+
+        let tmpId = await ReservationService.getRegisteredCompanyAdminId();
+        this.setState({id: tmpId.data});
 
         const formattedDate = this.state.selectedDate.format('YYYY-MM-DD');
         const res = await ReservationService.getReservationDaysByMonthAndYear(formattedDate, this.state.id);
@@ -110,7 +145,7 @@ class CalendarViewWorkingDaysComponent extends Component {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
 
-                <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
+                {/* <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
                     <input
                     type="number"
                     value={this.state.id}
@@ -119,7 +154,7 @@ class CalendarViewWorkingDaysComponent extends Component {
                     />
 
                     <button onClick={() => this.umestoUCWM()} className='btn btn-success'>Confirm</button>
-                </div>
+                </div> */}
 
                 {this.state.showCalendar && (
                     <>

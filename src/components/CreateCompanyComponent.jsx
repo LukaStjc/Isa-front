@@ -5,6 +5,8 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 import CompanyService from '../services/CompanyService';
 
+import UserService from "../services/user.service";
+
 
 class CreateCompanyComponent extends Component {
     
@@ -21,6 +23,7 @@ class CreateCompanyComponent extends Component {
             streetNumber: '',
             openingTime: null,
             closingTime: null,
+            content: ''
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -67,6 +70,32 @@ class CreateCompanyComponent extends Component {
     changeClosingTimeHandler=(value) =>{
         this.setState({closingTime: value});
     }
+
+    componentDidMount() {
+        UserService.getSystemAdminBoard().then(
+          response => {
+            this.setState({
+              content: response.data
+            });
+          },
+          error => {
+            this.setState({
+              content:
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString()
+            });
+    
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+            //   EventBus.dispatch("logout");
+              this.props.history.push('/profile');
+              console.log("Error: Nemate potrebne privilegije za pristup stranici");
+            }
+          }
+        );
+      }
 
     saveCompany= async(e) =>{
         e.preventDefault();

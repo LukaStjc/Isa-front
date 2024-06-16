@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import authHeader from './auth-header';
 const COMPANY_API_BASE_URL = "http://localhost:8082/api/companies" ;
 
 class CompanyService{
@@ -19,7 +20,7 @@ class CompanyService{
     }
     
     createCompany(CompanyLocationDTO){
-        return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO)
+        return axios.post(COMPANY_API_BASE_URL + '/create', CompanyLocationDTO, {headers: authHeader()})
     }
     updateCompany(companyId, CompanyLocationDTO){
         return axios.put(COMPANY_API_BASE_URL+ '/update/' + companyId, CompanyLocationDTO)

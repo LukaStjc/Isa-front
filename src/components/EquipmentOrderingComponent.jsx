@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import EquipmentOrderingService from '../services/EquipmentOrderingService';
 
+import UserService from "../services/user.service";
+
 class EquipmentOrderingComponent extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,8 @@ class EquipmentOrderingComponent extends Component {
       equipment: [],
       searchName: '',
       searchScore: 0.0,
-      searchType: -1
+      searchType: -1,
+      content: ''
     };
 
     this.handleTypeChange = this.handleTypeChange.bind(this);
@@ -17,6 +20,30 @@ class EquipmentOrderingComponent extends Component {
   }
 
   componentDidMount() {
+    UserService.getUserBoard().then(
+      response => {
+      this.setState({
+          content: response.data
+      });
+      },
+      error => {
+      this.setState({
+          content:
+          (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+          error.message ||
+          error.toString()
+      });
+
+      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      //   EventBus.dispatch("logout");
+          this.props.history.push('/profile');
+          console.log("Error: Nemate potrebne privilegije za pristup stranici");
+      }
+      }
+  );
+
     this.fetchEquipment();
   }
 
