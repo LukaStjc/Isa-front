@@ -41,6 +41,7 @@ class App extends Component {
     this.state = {
       showCompanyAdminBoard: false,
       showSystemAdminBoard: false,
+      showRegisteredUserBoard: false,
       currentUser: undefined,
     };
   }
@@ -52,6 +53,7 @@ class App extends Component {
       this.setState({
         currentUser: user,
         showCompanyAdminBoard: user.roles.includes("ROLE_COMPANY_ADMIN"),
+        showRegisteredUserBoard: user.roles.includes("ROLE_REGISTERED_USER"),
         showSystemAdminBoard: user.roles.includes("ROLE_SYSTEM_ADMIN"),
       });
     }
@@ -70,18 +72,19 @@ class App extends Component {
     this.setState({
       showCompanyAdminBoard: false,
       showSystemAdminBoard: false,
+      showRegisteredUserBoard: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    const { currentUser, showCompanyAdminBoard, showSystemAdminBoard } = this.state;
+    const { currentUser, showCompanyAdminBoard, showSystemAdminBoard, showRegisteredUserBoard } = this.state;
 
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            bezKoder
+            Medical equipment service
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -90,29 +93,50 @@ class App extends Component {
               </Link>
             </li>
 
-            {showSystemAdminBoard && (
+            {showSystemAdminBoard && 
+            <React.Fragment>
               <li className="nav-item">
                 <Link to={"/system-admin"} className="nav-link">
                   System Admin Board
                 </Link>
               </li>
-            )}
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  Companies
+                </Link>
+              </li>
+            </React.Fragment>
+            }
 
-            {showCompanyAdminBoard && (
+            {showCompanyAdminBoard && 
+            <React.Fragment>
               <li className="nav-item">
                 <Link to={"/company-admin"} className="nav-link">
                   Company Admin Board
                 </Link>
               </li>
-            )}
-
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  Companies
                 </Link>
               </li>
-            )}
+            </React.Fragment>
+            }
+
+            {showRegisteredUserBoard && 
+            <React.Fragment>
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  Registered user
+                </Link>
+              </li>
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  Companies
+                </Link>
+              </li>
+            </React.Fragment>
+            }
           </div>
 
           {currentUser ? (
