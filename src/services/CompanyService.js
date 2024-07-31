@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import authHeader from './auth-header';
 const COMPANY_API_BASE_URL = "http://localhost:8082/api/companies" ;
 
 class CompanyService{
