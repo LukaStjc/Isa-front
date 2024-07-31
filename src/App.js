@@ -43,6 +43,7 @@ class App extends Component {
       showSystemAdminBoard: false,
       showRegisteredUserBoard: false,
       currentUser: undefined,
+      lastVisitedUrl: "" 
     };
   }
 
@@ -61,11 +62,26 @@ class App extends Component {
     EventBus.on("logout", () => {
       this.logOut();
     });
+
+    this.loadLastVisitedUrl();
+    window.addEventListener('storage', this.handleStorageChange);
   }
 
   componentWillUnmount() {
     EventBus.remove("logout");
+
+    window.removeEventListener('storage', this.handleStorageChange);
   }
+
+  handleStorageChange = (event) => {
+    if (event.key === 'lastInteraction') {
+      const lastInteraction = JSON.parse(event.newValue);
+      if (lastInteraction && lastInteraction.url) {
+        this.setState({ lastVisitedUrl: lastInteraction.url });
+      }
+    }
+  }
+
 
   logOut() {
     AuthService.logout();
@@ -74,15 +90,23 @@ class App extends Component {
       showSystemAdminBoard: false,
       showRegisteredUserBoard: false,
       currentUser: undefined,
+      lastVisitedUrl: "",
     });
   }
 
+
+  loadLastVisitedUrl() {
+    const storedData = JSON.parse(localStorage.getItem('lastInteraction'));
+    if (storedData && storedData.url) {
+      this.setState({ lastVisitedUrl: storedData.url });
+    }
+  }
   render() {
-    const { currentUser, showCompanyAdminBoard, showSystemAdminBoard, showRegisteredUserBoard } = this.state;
+    const { currentUser, showCompanyAdminBoard, showSystemAdminBoard, showRegisteredUserBoard, lastVisitedUrl } = this.state;
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand navbar-dark bg-dark" key={lastVisitedUrl}>
           <Link to={"/"} className="navbar-brand">
             Medical equipment service
           </Link>
@@ -100,6 +124,7 @@ class App extends Component {
                   System Admin Board
                 </Link>
               </li>
+              
               <li>
                 <Link to={"/api/companies"} className="nav-link">
                   Companies
@@ -130,6 +155,13 @@ class App extends Component {
                   Registered user
                 </Link>
               </li>
+              <li className="nav-item">
+                {/* <Link to={lastVisitedUrl} className="nav-link">
+                  Cart
+                </Link> */}
+                <a href={lastVisitedUrl} className="nav-link">Cart</a>
+              </li>
+
               <li>
                 <Link to={"/api/companies"} className="nav-link">
                   Companies
@@ -137,6 +169,8 @@ class App extends Component {
               </li>
             </React.Fragment>
             }
+
+            
           </div>
 
           {currentUser ? (

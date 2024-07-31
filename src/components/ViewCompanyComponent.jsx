@@ -92,13 +92,42 @@ class ViewCompanyComponent extends Component {
             console.log(requestData)
             await ReservationService.createReservation(requestData);
             alert("You've successfully created reservation!")
+
+            this.setState({
+                selectedReservationId: null,
+                selectedEquipment: {}
+            });
+            localStorage.setItem('selectedReservationId', null);
+            localStorage.setItem('selectedEquipment', JSON.stringify({}));
+            const storageData = {
+                url: "",
+                selectedReservationId: null, 
+                selectedEquipment: {},
+            };
+            localStorage.setItem('lastInteraction', JSON.stringify(storageData));
+            
             window.location.reload()
         } catch (error) {
+            this.setState({
+                selectedReservationId: null,
+                selectedEquipment: {}
+            });
+            localStorage.setItem('selectedReservationId', null);
+            localStorage.setItem('selectedEquipment', JSON.stringify({}));
+            const storageData = {
+                url: "",
+                selectedReservationId: null, 
+                selectedEquipment: {},
+            };
+            localStorage.setItem('lastInteraction', JSON.stringify(storageData));
+
             if (error.response) {
                 alert('Error creating reservation: ' + error.response.data);
             } else {
                 alert('Error creating reservation: ' + error.message);
             }
+
+            window.location.reload()
         }
     }
     selectReservation = (reservationId) => { 
@@ -152,12 +181,44 @@ class ViewCompanyComponent extends Component {
 
         this.fetchCompany();
 
+        this.loadDataFromLocalStorage(); //
+
     }
-    componentDidUpdate(prevProps) {
+
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.fetchCompany();
         }
+
+        if (this.state.selectedEquipment !== prevState.selectedEquipment ||
+            this.state.selectedReservationId !== prevState.selectedReservationId) {
+            const hasValidEquipment = Object.keys(this.state.selectedEquipment).some(
+                id => this.state.selectedEquipment[id] >= 1
+            );
+
+            if (hasValidEquipment || this.state.selectedReservationId) {
+                const url = window.location.href; // sa ovim cuva stanje
+                // const url = window.location.pathname; 
+                const storageData = {
+                    url: url,
+                    selectedEquipment: this.state.selectedEquipment,
+                    selectedReservationId: this.state.selectedReservationId
+                };
+                localStorage.setItem('lastInteraction', JSON.stringify(storageData));
+            }
+        }
     }
+
+    loadDataFromLocalStorage = () => {
+        const lastInteraction = JSON.parse(localStorage.getItem('lastInteraction'));
+        if (lastInteraction && lastInteraction.url === window.location.href) {
+            this.setState({
+                selectedEquipment: lastInteraction.selectedEquipment || {},
+                selectedReservationId: lastInteraction.selectedReservationId
+            });
+        }
+    }
+
     changePickedAdminHandler=(event) =>{
         this.setState({pickedAdmin: event.target.value});
     }
