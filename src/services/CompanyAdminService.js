@@ -18,6 +18,10 @@ class CompanyAdminService{
     doesExsist(id){
         return axios.get(`${COMPANY_ADMIN_API_BASE_URL}/exsists/${id}`);
     }
+    
+    getCompanyIdBy(adminId) {
+        return axios.get(`${COMPANY_ADMIN_API_BASE_URL}/company/${adminId}`);
+    }   
 
 }
 export default new CompanyAdminService();

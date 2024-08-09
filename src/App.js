@@ -32,6 +32,7 @@ import CreateEquipmentComponent from './components/CreateEquipmentComponent';
 import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 import CreatePredefinedReservation from './components/CreatePredefinedReservation';
 import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
+import CompanyAdminService from "./services/CompanyAdminService";
 
 class App extends Component {
   constructor(props) {
@@ -43,7 +44,8 @@ class App extends Component {
       showSystemAdminBoard: false,
       showRegisteredUserBoard: false,
       currentUser: undefined,
-      lastVisitedUrl: "" 
+      companyId: null,
+      lastVisitedUrl: ""
     };
   }
 
@@ -57,6 +59,16 @@ class App extends Component {
         showRegisteredUserBoard: user.roles.includes("ROLE_REGISTERED_USER"),
         showSystemAdminBoard: user.roles.includes("ROLE_SYSTEM_ADMIN"),
       });
+
+
+      CompanyAdminService.getCompanyIdBy(user.id)
+    .then(response => {
+        this.setState({ companyId: response.data });
+    })
+    .catch(error => {
+        console.error("Error fetching company ID:", error);
+    });
+
     }
     
     EventBus.on("logout", () => {
@@ -81,7 +93,6 @@ class App extends Component {
       }
     }
   }
-
 
   logOut() {
     AuthService.logout();
@@ -143,6 +154,11 @@ class App extends Component {
               <li>
                 <Link to={"/api/companies"} className="nav-link">
                   Companies
+                </Link>
+              </li>
+              <li>
+              <Link to={`/api/companies/${this.state.companyId}`} className="nav-link">
+                  Company
                 </Link>
               </li>
             </React.Fragment>
