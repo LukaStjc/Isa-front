@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
     transform: rotate(360deg);
   }
 }
-.leaflet-container {  width: 50%;  height: 200px;}
+.leaflet-container {  width: 50%;  height: 2s00px;}
 
 * {
   box-sizing: border-box;
@@ -145,3 +145,13 @@ label {
 }
 
 /* Additional styles for other elements as needed */
+
+
+/* custom fixed margin for bootstrap navbar */
+.custom-margin-left {
+  margin-left: 20vw;
+}
+
+.custom-margin-right {
+  margin-right: 20vw;    
+}
