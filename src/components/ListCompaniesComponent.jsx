@@ -8,9 +8,11 @@ class ListCompaniesComponent extends Component {
 
         this.state = {
             companies: [],
-            searchText: '' //
+            searchText: '',
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
         this.showCompany = this.showCompany.bind(this);
+
     }
     showCompany(id){
         this.props.history.push(`/api/companies/${id}`);
@@ -39,9 +41,11 @@ class ListCompaniesComponent extends Component {
     };
 
     render() {
+        const { user } = this.state;
+
         return (
           <div>
-            <h2 className='text-center'>Companies List</h2>
+            <h2 style={{padding: '20px'}} className='text-center'>Companies List</h2>
   
                 <div className='search-container'>
                 <input
@@ -50,7 +54,7 @@ class ListCompaniesComponent extends Component {
                     value={this.state.searchText}
                     onChange={(e) => this.setState({ searchText: e.target.value })}
                 />
-                <button onClick={this.handleSearch}>Search</button>
+                <button className='btn btn-primary mr-1-sm' onClick={this.handleSearch}>Search</button>
                 </div>
             <div className='row'>
               <table className='table table-striped table-bordered'>
@@ -60,8 +64,10 @@ class ListCompaniesComponent extends Component {
                     <th>Company description</th>
                     <th>Average score</th>
                     <th>Details</th>
+                    { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
                     <th>Update</th>
-
+                    }
+                      
                   </tr>
                 </thead>
                 <tbody>
@@ -71,12 +77,14 @@ class ListCompaniesComponent extends Component {
                       <td>{company.description}</td>
                       <td>{company.averageScore}</td>
                       <td>
-                        <button onClick={() => this.showCompany(company.id)} className='btn-btn-info'>Show</button>
+                        <button onClick={() => this.showCompany(company.id)} class="btn btn-secondary">Show</button>
                         </td>
+                        { user && user.roles && user.roles.includes('ROLE_COMPANY_ADMIN') &&
                         <td>
-                        <button onClick={() => this.updateCompany(company.id)} className='btn-btn-info'>Update</button>
+                        <button onClick={() => this.updateCompany(company.id)} class="btn btn-dark">Update</button>
 
                         </td>
+                        }
 
                     </tr>
                   ))}

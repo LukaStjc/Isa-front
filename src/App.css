@@ -30,11 +30,14 @@
 
 /* added to manipulate margins */
 .search-container { 
-  margin-bottom: 30px;
-  vertical-align: middle;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start; /* Aligns children (input and button) to the left */
+
 }
 .search-container input {
   margin-right: 10px; 
+  font-size: 18px;
 }
 .password-mismatch {
   border: 1px solid red;
@@ -78,7 +81,7 @@
   border-radius: 50%;
   font-size: 1.2rem;
   box-shadow: 0 0 0px 5px #fff;
-} */
+} 
 
 
 /* login */

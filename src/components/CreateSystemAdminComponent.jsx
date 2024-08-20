@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import SystemAdminService from '../services/SystemAdminService';
+import { Redirect } from 'react-router-dom';
 
 class CreateSystemAdminComponent extends Component {
 
@@ -10,7 +11,8 @@ class CreateSystemAdminComponent extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            email: ''
+            email: '',
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
@@ -60,33 +62,45 @@ class CreateSystemAdminComponent extends Component {
     }
 
     render() {
-        return (
-            <div className='container'>
-                <div className='row'>
-                    <div className='card col-md-6 offset-md-3 offset-md-3'>
-                        <h3 className='text-center'>Register Company Administrator</h3>
-                        <div className='card-body'>
-                            <form>
+        const { user } = this.state; 
+
+        if ((user && user.roles && (user.roles.includes('ROLE_SYSTEM_ADMIN'))))
+        {
+            return (
+                <div className='container'>
+                    <div className='row'>
+                        <div className='card col-md-6 offset-md-3 offset-md-3'>
+                            <h3 className='text-center'>Register Company Administrator</h3>
+                            <div className='card-body'>
+                                <form>
+                                    
+                                    <label>Admin first name: </label>
+                                    <input placeholder='Name' className='form-control' value={this.state.firstName} 
+                                        onChange={this.changeFirstNameHandler} />
                                 
-                                <label>Admin first name: </label>
-                                <input placeholder='Name' className='form-control' value={this.state.firstName} 
-                                    onChange={this.changeFirstNameHandler} />
-                            
-                                <label>Admin last name: </label>
-                                <input placeholder='Last name' className='form-control' value={this.state.lastName} 
-                                    onChange={this.changeLastNameHandler} />
-                                
-                                <label>Admin email: </label>
-                                <input placeholder='Email' className='form-control' value={this.state.email} 
-                                    onChange={this.changeEmailHandler} />
-                                
-                                <button className='btn btn-success' onClick={this.saveSystemAdmin} style={{marginTop: '10px'}}>Save</button>
-                            </form>
+                                    <label>Admin last name: </label>
+                                    <input placeholder='Last name' className='form-control' value={this.state.lastName} 
+                                        onChange={this.changeLastNameHandler} />
+                                    
+                                    <label>Admin email: </label>
+                                    <input placeholder='Email' className='form-control' value={this.state.email} 
+                                        onChange={this.changeEmailHandler} />
+                                    
+                                    <button className='btn btn-success' onClick={this.saveSystemAdmin} style={{marginTop: '10px'}}>Save</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else
+        {
+            return <Redirect to="/api/companies" />;
+        }
+ 
+        
+        
     }
 }
 

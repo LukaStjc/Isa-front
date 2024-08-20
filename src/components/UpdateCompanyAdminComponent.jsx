@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Redirect } from 'react-router-dom';
 
 import CompanyAdminService from '../services/CompanyAdminService';
 
@@ -16,8 +17,8 @@ class UpdateCompanyAdminComponent extends Component {
             firstName: '',
             lastName: '',
             email: '',
-            password: ''
-          
+            password: '',
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
@@ -74,55 +75,67 @@ class UpdateCompanyAdminComponent extends Component {
     }
 
     render() {
+        const { user } = this.state; 
+
         const buttonStyle = {
             margin: '10px 0 0 0', // top right bottom left
-          };
-
-        return (
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='card col-md-6 offset-md-3 offset-md-3'>
-                            <h3 className='text-center'>Update CompanyAdmin</h3>
-                            <div className='card-body'>
-                                <form>
-                                    <div className='form-group'>
-                                        <label>First name: </label>
-                                        <input placeholder='FirstName' name='firstName' className='form-control'
-                                                value={this.state.firstName || ''} onChange={this.changeFirstNameHandler}/>                                      
-                                    </div>
-
-                                    <div>
-                                        <label>Last name: </label>
-                                        <input placeholder='LastName' name='lastName' className='form-control'
-                                                value={this.state.lastName || ''} onChange={this.changeLastNameHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>E-mail: </label>
-                                        <input placeholder='Email' name='email' className='form-control'
-                                                value={this.state.email || ''} onChange={this.changeEmailHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>Password: </label>
-                                        <input placeholder='' name='password' className='form-control'
-                                                value={this.state.password || ''} onChange={this.changePasswordHandler}/>
-                                    </div>
-
-                            
-                                        
-                                    <button className='btn btn-success' onClick={this.updateCompanyAdmin} style={buttonStyle}>Update</button>
-                                    {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
-                                        Cancel
-                                    </button>*/}
-                                </form>
+        };
+        
+        if ((user && user.roles && (user.roles.includes('ROLE_SYSTEM_ADMIN'))))
+        {
+            return (
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='card col-md-6 offset-md-3 offset-md-3'>
+                                <h3 className='text-center'>Update CompanyAdmin</h3>
+                                <div className='card-body'>
+                                    <form>
+                                        <div className='form-group'>
+                                            <label>First name: </label>
+                                            <input placeholder='FirstName' name='firstName' className='form-control'
+                                                    value={this.state.firstName || ''} onChange={this.changeFirstNameHandler}/>                                      
+                                        </div>
+    
+                                        <div>
+                                            <label>Last name: </label>
+                                            <input placeholder='LastName' name='lastName' className='form-control'
+                                                    value={this.state.lastName || ''} onChange={this.changeLastNameHandler}/>
+                                        </div>
+    
+                                        <div>
+                                            <label>E-mail: </label>
+                                            <input placeholder='Email' name='email' className='form-control'
+                                                    value={this.state.email || ''} onChange={this.changeEmailHandler}/>
+                                        </div>
+    
+                                        <div>
+                                            <label>Password: </label>
+                                            <input placeholder='' name='password' className='form-control'
+                                                    value={this.state.password || ''} onChange={this.changePasswordHandler}/>
+                                        </div>
+    
+                                
+                                            
+                                        <button className='btn btn-success' onClick={this.updateCompanyAdmin} style={buttonStyle}>Update</button>
+                                        {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
+                                            Cancel
+                                        </button>*/}
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </LocalizationProvider>
-        );
+                </LocalizationProvider>
+            );
+        }
+        else
+        {
+            return <Redirect to="/api/companies" />;
+        }
+
+
+        
     }
 }
 
