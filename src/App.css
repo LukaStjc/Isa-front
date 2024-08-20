@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -30,11 +30,14 @@
 
 /* added to manipulate margins */
 .search-container { 
-  margin-bottom: 30px;
-  vertical-align: middle;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start; /* Aligns children (input and button) to the left */
+
 }
 .search-container input {
   margin-right: 10px; 
+  font-size: 18px;
 }
 .password-mismatch {
   border: 1px solid red;
@@ -50,7 +53,7 @@
     transform: rotate(360deg);
   }
 }
-.leaflet-container {  width: 50%;  height: 200px;}
+.leaflet-container {  width: 50%;  height: 2s00px;}
 
 * {
   box-sizing: border-box;
@@ -78,7 +81,7 @@
   border-radius: 50%;
   font-size: 1.2rem;
   box-shadow: 0 0 0px 5px #fff;
-} */
+} 
 
 
 /* login */
@@ -145,3 +148,13 @@ label {
 }
 
 /* Additional styles for other elements as needed */
+
+
+/* custom fixed margin for bootstrap navbar */
+.custom-margin-left {
+  margin-left: 20vw;
+}
+
+.custom-margin-right {
+  margin-right: 20vw;    
+}

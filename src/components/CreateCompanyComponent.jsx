@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { Redirect } from 'react-router-dom';
 
 import CompanyService from '../services/CompanyService';
 
@@ -21,6 +22,7 @@ class CreateCompanyComponent extends Component {
             streetNumber: '',
             openingTime: null,
             closingTime: null,
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -104,72 +106,83 @@ class CreateCompanyComponent extends Component {
     }
 
     render() {
+        const { user } = this.state; 
+
         const buttonStyle = {
             margin: '10px 0 0 0', // top right bottom left
           };
 
-        return (
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='card col-md-6 offset-md-3 offset-md-3'>
-                            <h3 className='text-center'>Register Company</h3>
-                            <div className='card-body'>
-                                <form>
-                                    <div className='form-group'>
-                                        <label>Company name: </label>
-                                        <input placeholder='Name' name='name' className='form-control'
-                                                value={this.state.name} onChange={this.changeNameHandler}/>                                      
+          if ((user && user.roles && (user.roles.includes('ROLE_SYSTEM_ADMIN'))))
+            {
+                return (
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <div className='container'>
+                            <div className='row'>
+                                <div className='card col-md-6 offset-md-3 offset-md-3'>
+                                    <h3 className='text-center'>Register Company</h3>
+                                    <div className='card-body'>
+                                        <form>
+                                            <div className='form-group'>
+                                                <label>Company name: </label>
+                                                <input placeholder='Name' name='name' className='form-control'
+                                                        value={this.state.name} onChange={this.changeNameHandler}/>                                      
+                                            </div>
+        
+                                            <div>
+                                                <label>Company description: </label>
+                                                <input placeholder='Description' name='description' className='form-control'
+                                                        value={this.state.description} onChange={this.changeDescriptionHandler}/>
+                                            </div>
+        
+                                            <div>
+                                                <label>Country the company is in: </label>
+                                                <input placeholder='Country' name='country' className='form-control'
+                                                        value={this.state.country} onChange={this.changeCountryHandler}/>
+                                            </div>
+        
+                                            <div>
+                                                <label>City the company is in: </label>
+                                                <input placeholder='City' name='city' className='form-control'
+                                                        value={this.state.city} onChange={this.changeCitynHandler}/>
+                                            </div>
+        
+                                            <div>
+                                                <label>Name of the street the company located on: </label>
+                                                <input placeholder='Name' name='description' className='form-control'
+                                                        value={this.state.streetName} onChange={this.changeStreetNameHandler}/>
+                                            </div>
+        
+                                            <div>
+                                                <label>Street number : </label>
+                                                <input placeholder='Number' name='description' className='form-control'
+                                                        value={this.state.streetNumber} onChange={this.changeStreetNumberHandler}/>
+                                            </div>
+        
+                                            <div>
+                                                <label>Choose the opening time of this company:</label>
+                                                <TimePicker value={this.state.openingTime} onChange={this.changeOpeningTimeHanler} />
+                                                <label>Choose the closing time of this company:</label>
+                                                <TimePicker value={this.state.closingTime} onChange={this.changeClosingTimeHandler} />
+                                            </div>
+                                                
+                                            <button className='btn btn-success' onClick={this.saveCompany} style={buttonStyle}>Save</button>
+                                            {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
+                                                Cancel
+                                            </button>*/}
+                                        </form>
                                     </div>
-
-                                    <div>
-                                        <label>Company description: </label>
-                                        <input placeholder='Description' name='description' className='form-control'
-                                                value={this.state.description} onChange={this.changeDescriptionHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>Country the company is in: </label>
-                                        <input placeholder='Country' name='country' className='form-control'
-                                                value={this.state.country} onChange={this.changeCountryHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>City the company is in: </label>
-                                        <input placeholder='City' name='city' className='form-control'
-                                                value={this.state.city} onChange={this.changeCitynHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>Name of the street the company located on: </label>
-                                        <input placeholder='Name' name='description' className='form-control'
-                                                value={this.state.streetName} onChange={this.changeStreetNameHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>Street number : </label>
-                                        <input placeholder='Number' name='description' className='form-control'
-                                                value={this.state.streetNumber} onChange={this.changeStreetNumberHandler}/>
-                                    </div>
-
-                                    <div>
-                                        <label>Choose the opening time of this company:</label>
-                                        <TimePicker value={this.state.openingTime} onChange={this.changeOpeningTimeHanler} />
-                                        <label>Choose the closing time of this company:</label>
-                                        <TimePicker value={this.state.closingTime} onChange={this.changeClosingTimeHandler} />
-                                    </div>
-                                        
-                                    <button className='btn btn-success' onClick={this.saveCompany} style={buttonStyle}>Save</button>
-                                    {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
-                                        Cancel
-                                    </button>*/}
-                                </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </LocalizationProvider>
-        );
+                    </LocalizationProvider>
+                );
+            }
+            else
+            {
+                return <Redirect to="/api/companies" />;
+            }
+
+
     }
 }
 

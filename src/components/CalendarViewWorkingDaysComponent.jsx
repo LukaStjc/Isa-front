@@ -5,6 +5,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import Badge from '@mui/material/Badge';
 import { PickersDay } from '@mui/x-date-pickers/PickersDay';
+import { Redirect } from 'react-router-dom';
 
 import ReservationService from '../services/ReservationService';
 import CompanyAdminService from '../services/CompanyAdminService';
@@ -20,7 +21,8 @@ class CalendarViewWorkingDaysComponent extends Component {
             showTable: false,
             reservedDays: [],
             id: 0,
-            showCalendar: false
+            showCalendar: false,
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeDatesHandler = this.changeDatesHandler.bind(this);
@@ -106,73 +108,84 @@ class CalendarViewWorkingDaysComponent extends Component {
 
 
     render() {
-        return (
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
+        const { user } = this.state; 
 
-                <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
-                    <input
-                    type="number"
-                    value={this.state.id}
-                    onChange={this.handleIdChange}
-                    style={{ marginRight: '10px' }}
-                    />
-
-                    <button onClick={() => this.umestoUCWM()} className='btn btn-success'>Confirm</button>
-                </div>
-
-                {this.state.showCalendar && (
-                    <>
-                    <DateCalendar 
-                        value={this.state.selectedDate} 
-                        onChange={this.changeDatesHandler} 
-                        onMonthChange={this.handleMonthAndYearChange}
-                        onYearChange={this.handleMonthAndYearChange} 
-                        slots={{
-                            day: this.renderDay
-                        }}
-                        slotProps={{
-                            day: this.state.reservedDays
-                        }}
-                    />
-                
-                    <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
-                        <button onClick={() => this.viewReservations()} >Select Day</button>
-                        <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
+        if ((user && user.roles && (user.roles.includes('ROLE_COMPANY_ADMIN'))))
+        {
+            return (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <h2 className='text-center' style={{marginBottom: '30px'}}>Working calendar of your company</h2>
+    
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '10px' }}>
+                        <input
+                        type="number"
+                        value={this.state.id}
+                        onChange={this.handleIdChange}
+                        style={{ marginRight: '10px' }}
+                        />
+    
+                        <button onClick={() => this.umestoUCWM()} className='btn btn-success'>Confirm</button>
                     </div>
-                    </>
-                )}
-                {this.state.showTable && (
-                    <table className='table table-striped table-bordered' style={{marginTop: '100px'}}>
-                        <thead>
-                            <tr>
-                                <th>Beginning of appointment</th>
-                                <th>Appointment duration minutes</th>
-                                <th>Appointment creator name</th>
-                                <th>Appointment creator last name</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {this.state.reservations.map((reservation) => (
-                                <tr key={reservation.id}>
-                                    <td>{new Date(reservation.startingTime).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    })}</td>
-                                    <td>{reservation.durationMinutes}</td>
-                                    <td>{reservation.name}</td>
-                                    <td>{reservation.lastName}</td>
+    
+                    {this.state.showCalendar && (
+                        <>
+                        <DateCalendar 
+                            value={this.state.selectedDate} 
+                            onChange={this.changeDatesHandler} 
+                            onMonthChange={this.handleMonthAndYearChange}
+                            onYearChange={this.handleMonthAndYearChange} 
+                            slots={{
+                                day: this.renderDay
+                            }}
+                            slotProps={{
+                                day: this.state.reservedDays
+                            }}
+                        />
+                    
+                        <div className='form-group d-flex justify-content-between col-md-6 offset-md-3 offset-md-3'>
+                            <button onClick={() => this.viewReservations()} >Select Day</button>
+                            <button onClick={() => this.viewReservationsByWeek()} >Select week</button>
+                        </div>
+                        </>
+                    )}
+                    {this.state.showTable && (
+                        <table className='table table-striped table-bordered' style={{marginTop: '100px'}}>
+                            <thead>
+                                <tr>
+                                    <th>Beginning of appointment</th>
+                                    <th>Appointment duration minutes</th>
+                                    <th>Appointment creator name</th>
+                                    <th>Appointment creator last name</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
-            </LocalizationProvider>
-        );
+                            </thead>
+    
+                            <tbody>
+                                {this.state.reservations.map((reservation) => (
+                                    <tr key={reservation.id}>
+                                        <td>{new Date(reservation.startingTime).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}</td>
+                                        <td>{reservation.durationMinutes}</td>
+                                        <td>{reservation.name}</td>
+                                        <td>{reservation.lastName}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </LocalizationProvider>
+            );
+        }
+        else
+        {
+            return <Redirect to="/api/companies" />;
+        }
+
+        
     }
 }
 export default CalendarViewWorkingDaysComponent;

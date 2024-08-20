@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import CompanyAdminService from '../services/CompanyAdminService';
+import { Redirect } from 'react-router-dom';
 
 class CompanyAdminHomeComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             adminId: 6,
-            admin: null
-        
+            admin: null,
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
     }
@@ -35,19 +36,31 @@ class CompanyAdminHomeComponent extends Component {
 
   
     render() {
-        return (
-            <div>
+        const { user } = this.state; 
+
+        if ((user && user.roles && (user.roles.includes('ROLE_COMPANY_ADMIN'))))
+        {
+            return (
                 <div>
-                    <button onClick={() => this.showCompany(this.state.admin.companyId)} className='btn-btn-info'>Show company</button>
+                    <div>
+                        <button onClick={() => this.showCompany(this.state.admin.companyId)} className='btn-btn-info'>Show company</button>
+                    </div>
+                    <div>
+                        <button onClick={() => this.updateCompanyAdmin()} className='btn-btn-info'>Update company admin</button>
+                    </div>
+                    <div>
+                        <button onClick={() => this.showCalendar()} className='btn-btn-info'>Show calendar</button>
+                    </div>
                 </div>
-                <div>
-                    <button onClick={() => this.updateCompanyAdmin()} className='btn-btn-info'>Update company admin</button>
-                </div>
-                <div>
-                    <button onClick={() => this.showCalendar()} className='btn-btn-info'>Show calendar</button>
-                </div>
-            </div>
-        );
+            );
+        }
+        else
+        {
+            return <Redirect to="/api/companies" />;
+        }
+
+
+       
     }
 }
 

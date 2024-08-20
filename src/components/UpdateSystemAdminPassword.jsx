@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import SystemAdminService from '../services/SystemAdminService';
+import { Redirect } from 'react-router-dom';
 
 class UpdateSystemAdminPassword extends Component {
 
@@ -10,7 +11,8 @@ class UpdateSystemAdminPassword extends Component {
         this.state = {
             oldPassword: '',
             newPassword: '',
-            confirmedNewPassword: ''
+            confirmedNewPassword: '',
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeOldPasswordHandler = this.changeOldPasswordHandler.bind(this);
@@ -61,32 +63,43 @@ class UpdateSystemAdminPassword extends Component {
     }
 
     render() {
-        return (
-            <div className='container'>
-                <div className='row'>
-                    <div className='card col-md-6 offset-md-3 offset-md-3'>
-                        <h3 className='text-center'>Change your password</h3>
-                        <div className='card-body'>
-                            <form>
-                                <label>Current password: </label>
-                                <input className='form-control' value={this.state.oldPassword} 
-                                    onChange={this.changeOldPasswordHandler}/>
+        const { user } = this.state; 
 
-                                <label>New password: </label>
-                                <input className='form-control' value={this.state.newPassword} 
-                                    onChange={this.changeNewPasswordHandler}/>
-
-                                <label>Confirm new password: </label>
-                                <input className='form-control' value={this.state.confirmedNewPassword} 
-                                    onChange={this.changeConfirmenNewPassword} type="password"/>
-
-                                <button className='btn btn-success' onClick={this.updatePassword} style={{marginTop: '10px'}}>Save</button>
-                            </form>
+        if ((user && user.roles && (user.roles.includes('ROLE_SYSTEM_ADMIN'))))
+        {
+            return (
+                <div className='container'>
+                    <div className='row'>
+                        <div className='card col-md-6 offset-md-3 offset-md-3'>
+                            <h3 className='text-center'>Change your password</h3>
+                            <div className='card-body'>
+                                <form>
+                                    <label>Current password: </label>
+                                    <input className='form-control' value={this.state.oldPassword} 
+                                        onChange={this.changeOldPasswordHandler}/>
+    
+                                    <label>New password: </label>
+                                    <input className='form-control' value={this.state.newPassword} 
+                                        onChange={this.changeNewPasswordHandler}/>
+    
+                                    <label>Confirm new password: </label>
+                                    <input className='form-control' value={this.state.confirmedNewPassword} 
+                                        onChange={this.changeConfirmenNewPassword} type="password"/>
+    
+                                    <button className='btn btn-success' onClick={this.updatePassword} style={{marginTop: '10px'}}>Save</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else
+        {
+            return <Redirect to="/api/companies" />;
+        }
+
+
     }
 }
 

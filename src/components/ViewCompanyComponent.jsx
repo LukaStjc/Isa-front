@@ -255,8 +255,8 @@ class ViewCompanyComponent extends Component {
             iconSize: [38, 38]
         });
 
-        if (user && user.roles && (user.roles.includes('ROLE_REGISTERED_USER') || user.roles.includes('ROLE_COMPANY_ADMIN')))
-        {
+        // if (user && user.roles && (user.roles.includes('ROLE_REGISTERED_USER') || user.roles.includes('ROLE_COMPANY_ADMIN')))
+        // {
             return (
                 <div>
                     <h1>Company Details</h1>
@@ -390,11 +390,11 @@ class ViewCompanyComponent extends Component {
                     
                 </div>
             );
-        } 
-        else
-        {
-            return <Redirect to="/" />;
-        }
+        // } 
+        // else
+        // {
+        //     return <Redirect to="/api" />;
+        // }
 
         
     }

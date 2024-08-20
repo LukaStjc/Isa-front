@@ -2,13 +2,15 @@ import React, { Component } from "react";
 
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
+import { Redirect } from 'react-router-dom';
 
 export default class BoardUser extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      content: ""
+      content: "",
+      user: JSON.parse(localStorage.getItem('user')) || {},
     };
   }
 
@@ -37,12 +39,20 @@ export default class BoardUser extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
-      </div>
-    );
+    const { user } = this.state; 
+
+    if ((user && user.roles && (user.roles.includes('ROLE_REGISTERED_USER'))))
+    {
+      return (
+        <div className="container">
+          <header className="jumbotron">
+            <h3>User profile</h3>
+          </header>
+        </div>
+      );
+    }
+    else {
+      return <Redirect to="/api/companies" />;
+    }
   }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import CompanyAdminService from '../services/CompanyAdminService';
 import CompanyService from '../services/CompanyService';
+import { Redirect } from 'react-router-dom';
 
 class CreateCompanyAdminComponent extends Component {
 
@@ -14,7 +15,8 @@ class CreateCompanyAdminComponent extends Component {
             lastName: '',
             email: '',
             companyName: '',
-            companiesToShow: ''
+            companiesToShow: '',
+            user: JSON.parse(localStorage.getItem('user')) || {},
         }
 
         this.changeFirstNameHandler = this.changeFirstNameHandler.bind(this);
@@ -87,6 +89,8 @@ class CreateCompanyAdminComponent extends Component {
 
 
     render() {
+        const { user } = this.state; 
+
         const buttonStyle = {
             margin: '10px 0 0 0', // top right bottom left
         };
@@ -95,44 +99,55 @@ class CreateCompanyAdminComponent extends Component {
             margin: '20px 0 0 0 '
         }
 
-        return (
-            <div className='container'>
-                <div className='row'>
-                    <div className='card col-md-6 offset-md-3 offset-md-3'>
-                        <h3 className='text-center'>Register Company Administrator</h3>
-                        <div className='card-body'>
-                            <form>
-                                
-                                <label>Admin first name: </label>
-                                <input placeholder='Name' className='form-control' value={this.state.firstName} 
-                                    onChange={this.changeFirstNameHandler} />
-                            
-                                <label>Admin last name: </label>
-                                <input placeholder='Last name' className='form-control' value={this.state.lastName} 
-                                    onChange={this.changeLastNameHandler} />
-                                
-                                <label>Admin email: </label>
-                                <input placeholder='Email' className='form-control' value={this.state.email} 
-                                    onChange={this.changeEmailHandler} />
 
-                                <label>Admin password: </label>
-                                <input placeholder='Password' className='form-control' value={this.state.password} 
-                                    onChange={this.changePasswordHandler} />
-
-                                <label style={labelStyle} >Available companies: </label>
-                                <input value={this.state.companiesToShow} className='form-control' readOnly/>
-
-                                <label style={labelStyle} >Company where admin is working: </label>
-                                <input placeholder='Company name' name='companyName' className='form-control' value={this.state.companyName}
-                                    onChange={this.changeCompanyNameHandler}/>
-                                
-                                <button className='btn btn-success' onClick={this.saveCompanyAdmin} style={buttonStyle}>Save</button>
-                            </form>
+        if ((user && user.roles && (user.roles.includes('ROLE_SYSTEM_ADMIN'))))
+            {
+                return (
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='card col-md-6 offset-md-3 offset-md-3'>
+                                <h3 className='text-center'>Register Company Administrator</h3>
+                                <div className='card-body'>
+                                    <form>
+                                        
+                                        <label>Admin first name: </label>
+                                        <input placeholder='Name' className='form-control' value={this.state.firstName} 
+                                            onChange={this.changeFirstNameHandler} />
+                                    
+                                        <label>Admin last name: </label>
+                                        <input placeholder='Last name' className='form-control' value={this.state.lastName} 
+                                            onChange={this.changeLastNameHandler} />
+                                        
+                                        <label>Admin email: </label>
+                                        <input placeholder='Email' className='form-control' value={this.state.email} 
+                                            onChange={this.changeEmailHandler} />
+        
+                                        <label>Admin password: </label>
+                                        <input placeholder='Password' className='form-control' value={this.state.password} 
+                                            onChange={this.changePasswordHandler} />
+        
+                                        <label style={labelStyle} >Available companies: </label>
+                                        <input value={this.state.companiesToShow} className='form-control' readOnly/>
+        
+                                        <label style={labelStyle} >Company where admin is working: </label>
+                                        <input placeholder='Company name' name='companyName' className='form-control' value={this.state.companyName}
+                                            onChange={this.changeCompanyNameHandler}/>
+                                        
+                                        <button className='btn btn-success' onClick={this.saveCompanyAdmin} style={buttonStyle}>Save</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        );
+                );
+            }
+            else
+            {
+                return <Redirect to="/api/companies" />;
+            }
+            
+        
+        
     }
 }
 

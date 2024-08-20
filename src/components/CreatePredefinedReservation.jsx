@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import moment from 'moment';
 import ReservationService from '../services/ReservationService';
+import { Redirect } from 'react-router-dom';
 
 class CreatePredefinedReservation extends Component {
     constructor(props) {
@@ -13,7 +14,8 @@ class CreatePredefinedReservation extends Component {
             selectedDateTime: null,
             durationMinutes: '',
             adminId: '',
-            companyId: props.match.params.id
+            companyId: props.match.params.id,
+            user: JSON.parse(localStorage.getItem('user')) || {},
             }
 
         this.changeselectedDateTimeHandler = this.changeselectedDateTimeHandler.bind(this);
@@ -63,54 +65,65 @@ class CreatePredefinedReservation extends Component {
         margin: '10px 0 0 0', // top right bottom left
       };
       const minDateTime = moment(); // Current date and time
-    return (
+    
+      const { user } = this.state; 
 
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-            <div className='container'>
-                <div className='row'>
-                    <div className='card col-md-6 offset-md-3 offset-md-3'>
-                        <h3 className='text-center'>Create Predefined Reservation</h3>
-                        <div className='card-body'>
-                            <form>
-                                <div>
-                                    <label>Duration (in minutes): </label>
-                                    <input  name='durationMinutes' className='form-control'
-                                            value={this.state.durationMinutes} onChange={this.changeDurationMinutesHandler}/>
-                                </div>
-                                <div>
-                                    <label>Company Admin id:  </label>
-                                    <input  name='adminId' className='form-control'
-                                            value={this.state.adminId} onChange={this.changeAdminIdHandler}/>
-                                </div>
-                                
-                                <div>
-                                    <label>Select Date and Time:</label>
-                                    <DateTimePicker
-                                        value={this.state.selectedDateTime}
-                                        onChange={this.changeselectedDateTimeHandler}
-                                        minDateTime={minDateTime}
-                                        textField={(props) => (
-                                            <input
-                                                {...props}
-                                                type="text"
-                                                placeholder="Select Date and Time"
-                                                style={{ width: '250px' }} // Adjust width as needed
-                                            />
-                                        )}
-                                    />
-                                </div>
+      if ((user && user.roles && (user.roles.includes('ROLE_COMPANY_ADMIN'))))
+      {
+        return (
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+                <div className='container'>
+                    <div className='row'>
+                        <div className='card col-md-6 offset-md-3 offset-md-3'>
+                            <h3 className='text-center'>Create Predefined Reservation</h3>
+                            <div className='card-body'>
+                                <form>
+                                    <div>
+                                        <label>Duration (in minutes): </label>
+                                        <input  name='durationMinutes' className='form-control'
+                                                value={this.state.durationMinutes} onChange={this.changeDurationMinutesHandler}/>
+                                    </div>
+                                    <div>
+                                        <label>Company Admin id:  </label>
+                                        <input  name='adminId' className='form-control'
+                                                value={this.state.adminId} onChange={this.changeAdminIdHandler}/>
+                                    </div>
                                     
-                                <button className='btn btn-success' onClick={this.saveReservation} style={buttonStyle}>Save</button>
-                                {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
-                                    Cancel
-                                </button>*/}
-                            </form>
+                                    <div>
+                                        <label>Select Date and Time:</label>
+                                        <DateTimePicker
+                                            value={this.state.selectedDateTime}
+                                            onChange={this.changeselectedDateTimeHandler}
+                                            minDateTime={minDateTime}
+                                            textField={(props) => (
+                                                <input
+                                                    {...props}
+                                                    type="text"
+                                                    placeholder="Select Date and Time"
+                                                    style={{ width: '250px' }} // Adjust width as needed
+                                                />
+                                            )}
+                                        />
+                                    </div>
+                                        
+                                    <button className='btn btn-success' onClick={this.saveReservation} style={buttonStyle}>Save</button>
+                                    {/*<button className='btn btn-success' onClick={this.changeCitynHandler.bind(this)} style={{marginLeft: "10px"}}>
+                                        Cancel
+                                    </button>*/}
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </LocalizationProvider>
-    );
+            </LocalizationProvider>
+        );
+      }
+      else
+      {
+          return <Redirect to="/api/companies" />;
+      }
+
+      
 }
 }
 

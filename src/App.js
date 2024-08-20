@@ -32,6 +32,7 @@ import CreateEquipmentComponent from './components/CreateEquipmentComponent';
 import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 import CreatePredefinedReservation from './components/CreatePredefinedReservation';
 import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
+import logoImage from './img/logo.png';
 
 class App extends Component {
   constructor(props) {
@@ -107,21 +108,21 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark" key={lastVisitedUrl}>
-          <Link to={"/"} className="navbar-brand">
-            Medical equipment service
+          <Link to={"/api/companies"} className="navbar-brand">
+              <img src={logoImage} style={{ width: 'auto', height: '30px', marginLeft: '20px' }} /> 
           </Link>
           <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
 
             {showSystemAdminBoard && 
             <React.Fragment>
               <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to={"/system-admin"} className="nav-link">
-                  System Admin Board
+                  Board
                 </Link>
               </li>
               
@@ -136,8 +137,13 @@ class App extends Component {
             {showCompanyAdminBoard && 
             <React.Fragment>
               <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to={"/company-admin"} className="nav-link">
-                  Company Admin Board
+                  Board
                 </Link>
               </li>
               <li>
@@ -151,8 +157,8 @@ class App extends Component {
             {showRegisteredUserBoard && 
             <React.Fragment>
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  Registered user
+                <Link to={"/profile"} className="nav-link">
+                  Profile
                 </Link>
               </li>
               <li className="nav-item">
