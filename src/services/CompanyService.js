@@ -38,5 +38,16 @@ class CompanyService{
     findByName(companyName){
         return axios.get(`${COMPANY_API_BASE_URL}/has-name?name=${companyName}`)
     }
+
+    getCompanyProfile(companyId){
+        return axios.get(COMPANY_API_BASE_URL + '/profile/' + companyId, { headers: authHeader() }).catch(error => {
+            console.error('Error fetching company:', error);
+            if (error.response) {
+                console.log('Response data:', error.response.data);
+                console.log('Response status:', error.response.status);
+            }
+        });
+        
+    }
 }
 export default new CompanyService();

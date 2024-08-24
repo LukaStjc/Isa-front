@@ -33,6 +33,7 @@ import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 import CreatePredefinedReservation from './components/CreatePredefinedReservation';
 import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
 import CompanyAdminService from "./services/CompanyAdminService";
+import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
 
 class App extends Component {
   constructor(props) {
@@ -157,7 +158,7 @@ class App extends Component {
                 </Link>
               </li>
               <li>
-              <Link to={`/api/companies/${this.state.companyId}`} className="nav-link">
+              <Link to={`/api/company-admin/company/${this.state.companyId}`} className="nav-link">
                   Company
                 </Link>
               </li>
@@ -233,7 +234,7 @@ class App extends Component {
             <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
             <Route path="/api/equipment/company/:id"  component={ListCompanyEquipmentComponent} exact />
             <Route path="/api/equipment" component={ListEquipmentComponent} exact />
-            <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
+            <Route path="/api/company-admin/company/:id" component={ViewCompanyComponent} exact/>
             <Route path="/activate" component={ActivateAccountComponent} exact/>
             <Route path="/signup" component={CreateUserComponent} exact/>
             <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
@@ -249,6 +250,8 @@ class App extends Component {
             <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
             <Route path="/api/companies/:id/create-reservation" component={CreatePredefinedReservation} exact />
             <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
+            <Route path="/api/companies/:id" component={CompanyPublicProfileComponent} exact/>
+
           </Switch>
         </div>
       </div>
