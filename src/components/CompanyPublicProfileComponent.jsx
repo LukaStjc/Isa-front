@@ -26,7 +26,34 @@ class CompanyPublicProfileComponent extends Component {
             selectedEquipment: {},
             user: JSON.parse(localStorage.getItem('user')) || {},
         };
-        this.makeAppointment = this.makeAppointment.bind(this);
+    }
+       // Vasilije
+    resetQuantity = (equipmentId) => {
+        this.setState(prevState => {
+            const updatedSelectedEquipment = { ...prevState.selectedEquipment };
+
+            delete updatedSelectedEquipment[equipmentId];
+
+            return {
+                selectedEquipment: updatedSelectedEquipment
+            }
+        });
+    }
+    selectEquipment = (equipmentId) => {
+        this.setState(prevState => ({
+            selectedEquipment: {
+                ...prevState.selectedEquipment,
+                [equipmentId]: (prevState.selectedEquipment[equipmentId] || 0) + 1
+            }
+        }));
+    }
+    updateQuantity = (equipmentId, quantity) => {
+        this.setState(prevState => ({
+            selectedEquipment: {
+                ...prevState.selectedEquipment,
+                [equipmentId]: quantity
+            }
+        }));
     }
     createReservation = async(e) => {
 
@@ -229,13 +256,31 @@ class CompanyPublicProfileComponent extends Component {
                                             <p>Price: {equipment.price}</p>
                                             <p>Quantity: {equipment.quantity}</p>
                                             
+                                {  user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
+                                                <React.Fragment>
+                                                    <button onClick={() => this.selectEquipment(equipment.id)} className={`btn btn-primary ${this.state.selectedEquipment[equipment.id] >= 0 ? 'selectedButton' : ''} mr-1`}>Select</button>
+                                                    <button onClick={() => this.resetQuantity(equipment.id)} type='button' className='btn btn-danger'>Reset</button>
+                                                    {this.state.selectedEquipment[equipment.id] != null && (
+                                                        <div style={{ marginTop: '8px' }}>
+                                                            <input 
+                                                                type="number" 
+                                                                value={this.state.selectedEquipment[equipment.id]}
+                                                                onChange={(e) => {
+                                                                    const newValue = parseInt(e.target.value);
+            
+                                                                    const updatedValue = newValue < 1 ? 1 : newValue;
+                                                                    
+                                                                    this.updateQuantity(equipment.id, updatedValue);
+                                                                }}    
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </React.Fragment>
+                                            }
                                         </li>
-                                    ))}
-                                </ul>
-                                { user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
-                                    <button onClick={() => this.makeAppointment(this.state.companyId)} className='btn btn-primary mr-1'>Make an appointment - needs work</button>
-                                }
-    
+                                        ))}
+                                    </ul>
+
                             </div>
 
     

@@ -70,7 +70,7 @@ class CreatePredefinedReservation extends Component {
 
         try {
             await ReservationService.CreatePredefinedReservation(reservation);
-            this.props.history.push('/api/companies/' + this.state.companyId);
+            this.props.history.push('/api/company-admin/company/' + this.state.companyId);
         } catch (error) {
             console.error('Error creating reservation:', error);
         }
@@ -146,7 +146,9 @@ class CreatePredefinedReservation extends Component {
                 </LocalizationProvider>
             );
         } else {
-            return <Redirect to="/api/companies" />;
+            //Pavle - nema smisla da redirektuje na sve kompanije , admin nece imati pristup tome
+            // return <Redirect to="/api/companies" />;
+
         }
     }
 }
