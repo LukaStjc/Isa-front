@@ -33,6 +33,8 @@ import UpdateEquipmentComponent from './components/UpdateEquipmentComponent';
 import CreatePredefinedReservation from './components/CreatePredefinedReservation';
 import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
 import logoImage from './img/logo.png';
+import CompanyAdminService from "./services/CompanyAdminService";
+import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
 
 class App extends Component {
   constructor(props) {
@@ -44,7 +46,8 @@ class App extends Component {
       showSystemAdminBoard: false,
       showRegisteredUserBoard: false,
       currentUser: undefined,
-      lastVisitedUrl: "" 
+      companyId: null,
+      lastVisitedUrl: ""
     };
   }
 
@@ -58,6 +61,16 @@ class App extends Component {
         showRegisteredUserBoard: user.roles.includes("ROLE_REGISTERED_USER"),
         showSystemAdminBoard: user.roles.includes("ROLE_SYSTEM_ADMIN"),
       });
+
+
+      CompanyAdminService.getCompanyIdBy(user.id)
+    .then(response => {
+        this.setState({ companyId: response.data });
+    })
+    .catch(error => {
+        console.error("Error fetching company ID:", error);
+    });
+
     }
     
     EventBus.on("logout", () => {
@@ -82,7 +95,6 @@ class App extends Component {
       }
     }
   }
-
 
   logOut() {
     AuthService.logout();
@@ -149,6 +161,11 @@ class App extends Component {
               <li>
                 <Link to={"/api/companies"} className="nav-link">
                   Companies
+                </Link>
+              </li>
+              <li>
+              <Link to={`/api/company-admin/company/${this.state.companyId}`} className="nav-link">
+                  Company
                 </Link>
               </li>
             </React.Fragment>
@@ -223,7 +240,7 @@ class App extends Component {
             <Route path="/api/companies/create" component={CreateCompanyComponent} exact/>
             <Route path="/api/equipment/company/:id"  component={ListCompanyEquipmentComponent} exact />
             <Route path="/api/equipment" component={ListEquipmentComponent} exact />
-            <Route path="/api/companies/:id" component={ViewCompanyComponent} exact/>
+            <Route path="/api/company-admin/company/:id" component={ViewCompanyComponent} exact/>
             <Route path="/activate" component={ActivateAccountComponent} exact/>
             <Route path="/signup" component={CreateUserComponent} exact/>
             <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
@@ -239,6 +256,8 @@ class App extends Component {
             <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
             <Route path="/api/companies/:id/create-reservation" component={CreatePredefinedReservation} exact />
             <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
+            <Route path="/api/companies/:id" component={CompanyPublicProfileComponent} exact/>
+
           </Switch>
         </div>
       </div>
