@@ -35,6 +35,7 @@ import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
 import logoImage from './img/logo.png';
 import CompanyAdminService from "./services/CompanyAdminService";
 import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
+import ChangePassword from "./components/changePassword.component"
 
 class App extends Component {
   constructor(props) {
@@ -257,6 +258,8 @@ class App extends Component {
             <Route path="/api/companies/:id/create-reservation" component={CreatePredefinedReservation} exact />
             <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
             <Route path="/api/companies/:id" component={CompanyPublicProfileComponent} exact/>
+            <Route path="/change-password" component={ChangePassword} exact />
+
 
           </Switch>
         </div>

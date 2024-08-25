@@ -25,6 +25,8 @@ class CompanyAdminService{
     getCompanyAdmins(companyId){
         return axios.get(`${COMPANY_ADMIN_API_BASE_URL}/all/${companyId}`)
     }
-
+    changePassword(changePasswordDTO){
+        return axios.put(`${COMPANY_ADMIN_API_BASE_URL}/change-password`, changePasswordDTO)
+    }
 }
 export default new CompanyAdminService();
