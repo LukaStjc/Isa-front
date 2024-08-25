@@ -220,8 +220,7 @@ class CompanyPublicProfileComponent extends Component {
             iconSize: [38, 38]
         });
 
-        if (user && user.roles && (user.roles.includes('ROLE_REGISTERED_USER') || user.roles.includes('ROLE_COMPANY_ADMIN')))
-        {
+
             return (
                 <div>
                     <h1>PUBLIC Company Details</h1>
@@ -283,6 +282,7 @@ class CompanyPublicProfileComponent extends Component {
 
                             </div>
 
+                            { user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
     
                             <div>
                                 <h2>Predefined appointments</h2>
@@ -301,10 +301,9 @@ class CompanyPublicProfileComponent extends Component {
                                         </li>
                                     ))}
                                 </ul>       
-                                { user && user.roles && user.roles.includes('ROLE_REGISTERED_USER') &&
                                     <button onClick={this.createReservation} className='btn btn-primary mr-1'>Create reservation</button>
-                                }    
                             </div>
+                                }    
 
                         <div>
     
@@ -322,11 +321,7 @@ class CompanyPublicProfileComponent extends Component {
                     
                 </div>
             );
-        } 
-        else
-        {
-            return <Redirect to="/" />;
-        }
+
 
         
     }
