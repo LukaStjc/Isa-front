@@ -24,13 +24,30 @@
   color: white;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.leftColumn, .rightColumn {
+  flex: 1;
+  padding: 0px;
+}
+
+.mapContainer {
+  height: 300px; 
+}
+
+
 .App-link {
   color: #61dafb;
 }
 
 /* added to manipulate margins */
 .search-container { 
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   display: flex;
   justify-content: flex-start; /* Aligns children (input and button) to the left */
 
@@ -53,21 +70,12 @@
     transform: rotate(360deg);
   }
 }
-.leaflet-container {  width: 50%;  height: 2s00px;}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-
-
-/* height of the container */
 .leaflet-container {
-  height: 40vh;
-  width: 30%;
-  border-radius: 2rem;
+  width: 350px; /* Adjust to control width */
+  height: 250px; /* Adjust to control height */
+  border-radius: 4rem;
+  margin: 20px;
 }
 
 .cluster-icon {
@@ -158,3 +166,64 @@ label {
 .custom-margin-right {
   margin-right: 20vw;    
 }
+
+
+.equipmentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 50px;
+}
+
+.equipmentCard {
+  flex: 0 10 48%; /* Each card will take up nearly half of the container width */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds shadow for better visibility */
+  margin: 5px 1%; /* Adds space between cards and allows for flex wrapping */
+  padding: 30px;
+  border-radius: 5px; /* Optional: adds rounded corners to the cards */
+  background-color: rgb(221, 221, 221); /* Background color for the card */
+}
+
+.equipmentCard p {
+  margin: 5px 0; /* Spacing between paragraphs inside the card */
+}
+
+.appointmentsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 50px;
+}
+
+.appointmentsCard {
+  flex: 0 10 48%; /* Each card will take up nearly half of the container width */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds shadow for better visibility */
+  margin: 5px 1%; /* Adds space between cards and allows for flex wrapping */
+  padding: 20px;
+  border-radius: 5px; /* Optional: adds rounded corners to the cards */
+  background-color: rgb(221, 221, 221); /* Background color for the card */
+}
+
+.appointmentsCard p {
+  margin: 5px 0; /* Spacing between paragraphs inside the card */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .equipmentCard {
+      flex: 0 0 100%; /* Each card takes full width on small screens */
+  }
+}
+
+
+.mainContainer {
+  max-width: 1000px; /* Adjust this value to control the overall width */
+  margin: 0 auto; /* Centers the container in the middle of the page */
+  padding: 20px;
+}
+
+/* Additional responsive adjustment */
+@media (max-width: 1300px) {
+  .mainContainer {
+    max-width: 95%; /* Makes the container responsive */
+  }
+}
+
