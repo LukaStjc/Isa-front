@@ -36,6 +36,12 @@ import logoImage from './img/logo.png';
 import CompanyAdminService from "./services/CompanyAdminService";
 import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
 import ChangePassword from "./components/changePassword.component"
+import RegisteredUserProfileComponent from './components/RegisteredUserProfileComponent';
+import RegisteredUserProfileEditComponent from './components/RegisteredUserProfileEditComponent';
+import ChangePasswordComponent from "./components/ChangePasswordComponent";
+import ShowCompanies from "./components/ShowCompanies";
+import ShowAppointments from "./components/AppointmentListComponent";
+
 
 class App extends Component {
   constructor(props) {
@@ -172,17 +178,53 @@ class App extends Component {
             </React.Fragment>
             }
 
-            {showRegisteredUserBoard && 
+{showRegisteredUserBoard && 
             <React.Fragment>
               <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
+                <Link to={"/regUserProfile"} className="nav-link">
                   Profile
                 </Link>
               </li>
-
+              <li className="nav-item">
+                {/* <Link to={lastVisitedUrl} className="nav-link">
+                  Cart
+                </Link> */}
+                <a href={lastVisitedUrl} className="nav-link">Cart</a>
+              </li>
+ 
               <li>
                 <Link to={"/api/companies"} className="nav-link">
                   Companies
+                </Link>
+              </li>
+              <li>
+                <Link to={"/showCompanies"} className="nav-link">
+                  Show Companies
+                </Link>
+              </li>
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  History
+                </Link>
+              </li>
+              <li>
+                <Link to={"/showAppointments"} className="nav-link">
+                  Appointments
+                </Link>
+              </li>
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  QR
+                </Link>
+              </li>
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  Penalty
+                </Link>
+              </li>
+              <li>
+                <Link to={"/api/companies"} className="nav-link">
+                  Complaint
                 </Link>
               </li>
             </React.Fragment>
@@ -227,6 +269,11 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/regUserProfile" component={RegisteredUserProfileComponent} />
+            <Route exact path="/regUserProfileEdit" component={RegisteredUserProfileEditComponent} />
+            <Route exact path="/regUserProfileEditPassword" component={ChangePasswordComponent} />
+            <Route exact path="/showCompanies" component={ShowCompanies} />
+            <Route exact path="/showAppointments" component={ShowAppointments} />
             <Route path="/user" component={BoardUser} />
             <Route path="/company-admin" component={BoardCompanyAdmin} />
             <Route path="/system-admin" component={BoardSystemAdmin} />
