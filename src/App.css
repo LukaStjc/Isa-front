@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,9 +24,43 @@
   color: white;
 }
 
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.leftColumn, .rightColumn {
+  flex: 1;
+  padding: 0px;
+}
+
+.mapContainer {
+  height: 300px; 
+}
+
+
 .App-link {
   color: #61dafb;
 }
+
+/* added to manipulate margins */
+.search-container { 
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: flex-start; /* Aligns children (input and button) to the left */
+
+}
+.search-container input {
+  margin-right: 10px; 
+  font-size: 18px;
+}
+.password-mismatch {
+  border: 1px solid red;
+  color: red;
+}
+
 
 @keyframes App-logo-spin {
   from {
@@ -36,3 +70,160 @@
     transform: rotate(360deg);
   }
 }
+
+.leaflet-container {
+  width: 350px; /* Adjust to control width */
+  height: 250px; /* Adjust to control height */
+  border-radius: 4rem;
+  margin: 20px;
+}
+
+.cluster-icon {
+  background-color: #333;
+  height: 2em;
+  width: 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0 0 0px 5px #fff;
+} 
+
+
+/* login */
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.card-container.card {
+  max-width: 350px !important;
+  padding: 40px 40px;
+}
+
+.card {
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+
+/* button color change during creating the reservation  */
+.btn.btn-primary.selectedButton {
+  background-color: green;
+  color: white;
+}
+
+.control-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Adjust spacing between controls and the map */
+}
+
+.control-group > * {
+  margin-right: 10px; /* Spacing between controls */
+}
+
+.control-group > *:last-child {
+  margin-right: 0; /* Remove margin for the last element */
+}
+
+
+
+.btn {
+  padding: 5px 10px; /* Padding inside buttons */
+}
+
+/* Additional styles for other elements as needed */
+
+
+/* custom fixed margin for bootstrap navbar */
+.custom-margin-left {
+  margin-left: 20vw;
+}
+
+.custom-margin-right {
+  margin-right: 20vw;    
+}
+
+
+.equipmentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 50px;
+}
+
+.equipmentCard {
+  flex: 0 10 48%; /* Each card will take up nearly half of the container width */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds shadow for better visibility */
+  margin: 5px 1%; /* Adds space between cards and allows for flex wrapping */
+  padding: 30px;
+  border-radius: 5px; /* Optional: adds rounded corners to the cards */
+  background-color: rgb(221, 221, 221); /* Background color for the card */
+}
+
+.equipmentCard p {
+  margin: 5px 0; /* Spacing between paragraphs inside the card */
+}
+
+.appointmentsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 50px;
+}
+
+.appointmentsCard {
+  flex: 0 10 48%; /* Each card will take up nearly half of the container width */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds shadow for better visibility */
+  margin: 5px 1%; /* Adds space between cards and allows for flex wrapping */
+  padding: 20px;
+  border-radius: 5px; /* Optional: adds rounded corners to the cards */
+  background-color: rgb(221, 221, 221); /* Background color for the card */
+}
+
+.appointmentsCard p {
+  margin: 5px 0; /* Spacing between paragraphs inside the card */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .equipmentCard {
+      flex: 0 0 100%; /* Each card takes full width on small screens */
+  }
+}
+
+
+.mainContainer {
+  max-width: 1000px; /* Adjust this value to control the overall width */
+  margin: 0 auto; /* Centers the container in the middle of the page */
+  padding: 20px;
+}
+
+/* Additional responsive adjustment */
+@media (max-width: 1300px) {
+  .mainContainer {
+    max-width: 95%; /* Makes the container responsive */
+  }
+}
+
