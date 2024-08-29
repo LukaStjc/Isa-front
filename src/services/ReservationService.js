@@ -18,7 +18,13 @@ class ReservationService{
     }
 
     createReservation(reservationByPremadeAppointmentDTO) { // Vasilije
+        console.log("Headers being sent:", authHeader());
         return axios.post(RESERVATION_API_BASE_URL + '/create-by-premade-appointment', reservationByPremadeAppointmentDTO, { headers: authHeader() })
+    }
+
+    cancelReservation(id) {
+        console.log("Headers being sent:", authHeader());
+        return axios.post(RESERVATION_API_BASE_URL + '/cancel/' + id, {}, { headers: authHeader() })
     }
 
 }

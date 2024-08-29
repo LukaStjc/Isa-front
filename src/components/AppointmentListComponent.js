@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
 import authHeader from "../services/auth-header";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import ReservationService from '../services/ReservationService';
 
 
 const AppointmentList = () => {
     const history = useHistory();
     const [appointments, setAppointments] = useState([]);
   
-    const cancelAppointment = (id) => {
-      history.push(`...${id}`);
-      //ovde treba da se doda putanja za stranicu sa otkazivanjem
-      //ili dodati direktno funcionalnost otkazivanja kako god je lakse
+    const cancelAppointment = async (id) => {
+      try {
+        const response = await ReservationService.cancelReservation(id);
+        console.log('Response:', response.data); 
+        alert('Reservation cancelled successfully!');
+        window.location.reload();
+      } catch (error) {
+        console.error('Error cancelling reservation:', error.response.data);
+        alert('Failed to cancel reservation: ' + error.response.data.message);
+      }
     };
-  
+    
     useEffect(() => {
       let ignore = false;
       const fetchProfile = async () => {
         try {
           let response = await fetch(
-            `http://localhost:8082/api/reservations/ready`,
+            `http://localhost:8082/api/reservations/ready`, 
             {
               headers: authHeader(),
             }

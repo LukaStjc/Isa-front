@@ -185,12 +185,6 @@ class App extends Component {
                   Profile
                 </Link>
               </li>
-              <li className="nav-item">
-                {/* <Link to={lastVisitedUrl} className="nav-link">
-                  Cart
-                </Link> */}
-                <a href={lastVisitedUrl} className="nav-link">Cart</a>
-              </li>
  
               <li>
                 <Link to={"/api/companies"} className="nav-link">
