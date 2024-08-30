@@ -70,7 +70,7 @@ export default class ChangePassword extends Component {
             let changePasswordDTO = {password: this.state.password, id: user.id};
             CompanyAdminService.changePassword(changePasswordDTO).then(
                 () => {
-                    this.props.history.push("/profile"); // or any other route you want
+                    this.props.history.push("/login"); 
                     window.location.reload();
                 },
                 error => {

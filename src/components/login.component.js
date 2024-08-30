@@ -56,12 +56,16 @@ export default class Login extends Component {
       AuthService.login(this.state.email, this.state.password).then(
         (response) => {
           // const user = response.data;
-          const user = AuthService.getCurrentUser(); // Assuming you have a method to get the current user
+          const user = AuthService.getCurrentUser(); 
           console.log(user);
           if (user.roles.includes("ROLE_COMPANY_ADMIN") && user.passwordChangeRequired) {
             this.props.history.push("/profile");
           } else {
-            this.props.history.push("/profile");
+            // this.props.history.push("/profile");
+            const id = user.id;
+            this.props.history.push(`/api/company-admins/${id}`);
+
+            
           }
           //   this.props.history.push("/profile");
 
