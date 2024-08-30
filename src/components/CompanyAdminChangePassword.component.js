@@ -17,7 +17,7 @@ const required = value => {
     return null;
 };
 
-export default class ChangePassword extends Component {
+export default class CompanyAdminChangePassword extends Component {
     constructor(props) {
         super(props);
         this.onChangePassword = this.onChangePassword.bind(this);

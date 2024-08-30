@@ -35,7 +35,7 @@ import CompanyAdminHomeComponent from './components/CompanyAdminHomeComponent';
 import logoImage from './img/logo.png';
 import CompanyAdminService from "./services/CompanyAdminService";
 import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
-import ChangePassword from "./components/changePassword.component"
+import CompanyAdminChangePassword from "./components/CompanyAdminChangePassword.component"
 import RegisteredUserProfileComponent from './components/RegisteredUserProfileComponent';
 import RegisteredUserProfileEditComponent from './components/RegisteredUserProfileEditComponent';
 import ChangePasswordComponent from "./components/ChangePasswordComponent";
@@ -294,9 +294,9 @@ class App extends Component {
             <Route path="/api/equipment/create/:id" component={CreateEquipmentComponent} exact />
             <Route path="/api/equipment/update/:id" component={UpdateEquipmentComponent} exact />
             <Route path="/api/companies/:id/create-reservation" component={CreatePredefinedReservation} exact />
-            <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
+            <Route path="/api/company-admins/home" component={CompanyAdminHomeComponent} exact />
             <Route path="/api/companies/:id" component={CompanyPublicProfileComponent} exact/>
-            <Route path="/change-password" component={ChangePassword} exact />
+            <Route path="/change-password" component={CompanyAdminChangePassword} exact />
             <Route path="/api/reservations/get-users" component={CompanyAdminReservationsViewComponent} exact />
             <Route path="/api/reservations/available" component={CompanyAdminAvailableReservationsComponent} exact />
 
