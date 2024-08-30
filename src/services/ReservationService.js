@@ -20,6 +20,18 @@ class ReservationService{
     createReservation(reservationByPremadeAppointmentDTO) { // Vasilije
         return axios.post(RESERVATION_API_BASE_URL + '/create-by-premade-appointment', reservationByPremadeAppointmentDTO, { headers: authHeader() })
     }
+    
+    getAllUsersByCompanyAdmin(id){
+        return axios.get(`${RESERVATION_API_BASE_URL}/get-users/${id}`);
+    }
 
+    getAvailableReservations(id){
+        return axios.get(`${RESERVATION_API_BASE_URL}/available/${id}`);
+    }
+    
+    markReservationCompleted(id){
+        return axios.put(`${RESERVATION_API_BASE_URL}/mark-completed/${id}`);
+
+    }
 }
 export default new ReservationService();

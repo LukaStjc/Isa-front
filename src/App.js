@@ -36,6 +36,8 @@ import logoImage from './img/logo.png';
 import CompanyAdminService from "./services/CompanyAdminService";
 import CompanyPublicProfileComponent from "./components/CompanyPublicProfileComponent";
 import ChangePassword from "./components/changePassword.component"
+import CompanyAdminReservationsViewComponent from "./components/CompanyAdminReservationsViewComponent"
+import CompanyAdminAvailableReservationsComponent from "./components/CompanyAdminAvailableReservationsComponent";
 
 class App extends Component {
   constructor(props) {
@@ -63,14 +65,16 @@ class App extends Component {
         showSystemAdminBoard: user.roles.includes("ROLE_SYSTEM_ADMIN"),
       });
 
-
+    if (user.roles.includes("ROLE_COMPANY_ADMIN")){
       CompanyAdminService.getCompanyIdBy(user.id)
-    .then(response => {
+      .then(response => {
         this.setState({ companyId: response.data });
-    })
-    .catch(error => {
-        console.error("Error fetching company ID:", error);
-    });
+      })
+      .catch(error => {
+          console.error("Error fetching company ID:", error);
+      });    
+    }
+    
 
     }
     
@@ -253,6 +257,9 @@ class App extends Component {
             <Route path="/api/company-admins/:id" component={CompanyAdminHomeComponent} exact />
             <Route path="/api/companies/:id" component={CompanyPublicProfileComponent} exact/>
             <Route path="/change-password" component={ChangePassword} exact />
+            <Route path="/api/reservations/get-users" component={CompanyAdminReservationsViewComponent} exact />
+            <Route path="/api/reservations/available" component={CompanyAdminAvailableReservationsComponent} exact />
+
 
 
           </Switch>
