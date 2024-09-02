@@ -55,26 +55,34 @@ class CreatePredefinedReservation extends Component {
 
     saveReservation = async (e) => {
         e.preventDefault();
-
+    
         if (this.state.selectedDateTime === null) {
             console.log('Warning: Starting date and time is empty.');
             return; 
         }
-
+    
         let reservation = {
             selectedDateTime: this.state.selectedDateTime,
             durationMinutes: this.state.durationMinutes,
             adminId: this.state.adminId
         };
         console.log('reservation => ' + JSON.stringify(reservation));
-
+    
         try {
+            // Call the service to create the reservation
             await ReservationService.CreatePredefinedReservation(reservation);
+            
+            // If successful, redirect to another page
             this.props.history.push('/api/company-admin/company/' + this.state.companyId);
         } catch (error) {
+            // Handle the error by displaying a message
             console.error('Error creating reservation:', error);
+            
+            // Display a user-friendly alert or notification
+            alert('An error occurred while creating the reservation. Please try again later.');
         }
     }
+    
 
     render() { 
         const buttonStyle = {
