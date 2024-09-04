@@ -43,6 +43,7 @@ import ShowCompanies from "./components/ShowCompanies";
 import ShowAppointments from "./components/AppointmentListComponent";
 import CompanyAdminReservationsViewComponent from "./components/CompanyAdminReservationsViewComponent"
 import CompanyAdminAvailableReservationsComponent from "./components/CompanyAdminAvailableReservationsComponent";
+import HelloComponent from './components/HelloComponent'
 
 class App extends Component {
   constructor(props) {
@@ -190,13 +191,8 @@ class App extends Component {
               </li>
  
               <li>
-                <Link to={"/api/companies"} className="nav-link">
-                  Companies
-                </Link>
-              </li>
-              <li>
                 <Link to={"/showCompanies"} className="nav-link">
-                  Show Companies
+                  Companies
                 </Link>
               </li>
               <li>
@@ -271,6 +267,7 @@ class App extends Component {
             <Route exact path="/regUserProfileEditPassword" component={ChangePasswordComponent} />
             <Route exact path="/showCompanies" component={ShowCompanies} />
             <Route exact path="/showAppointments" component={ShowAppointments} />
+            <Route exact path="/welcome" component={HelloComponent} />
             <Route path="/user" component={BoardUser} />
             <Route path="/company-admin" component={BoardCompanyAdmin} />
             <Route path="/system-admin" component={BoardSystemAdmin} />

@@ -1,0 +1,8 @@
+.welcome-container {
+    height: 80vh; /* Full height of the viewport */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-size: 64px; /* Larger text */
+    font-family: Arial, sans-serif; /* Font style */
+  }

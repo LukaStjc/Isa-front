@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import authHeader from "../services/auth-header";
 import { useHistory, useLocation } from "react-router-dom";
 import authService from "../services/auth.service";
-
+import "../css/UserProfile.css"
 
 
 
@@ -41,8 +41,6 @@ const ChangePasswordComponent = () => {
             default:
               break;
         }
-
-
     }
 
 
@@ -64,14 +62,12 @@ const ChangePasswordComponent = () => {
                 authService.logout();
                 history.push("/login");
             }else{
+                alert("Try again!")
                 console.error("ERROR!");
             }
-
         }else{
             console.error("Form contains errors", errors);
         }
-
-
     }
 
 
@@ -83,42 +79,42 @@ const ChangePasswordComponent = () => {
         ].every((v)=>v);   
 
 
-
-
-
-
     return (
-        <div> 
-          <div>
-            <p>
-                <b>Old password:</b>{" "}
-                <input
-                    type="password"
-                    name="oldPassword"
-                    value={oldPassword}
-                    onChange={handleInputChange}
-                />{" "}
-            </p>
-          </div>
+        <div className="user-data"> 
+            <h2 style={{ padding: "20px" }} className="text-center">
+                Change Password
+            </h2>
+            <div>
+                <p>
+                    <b>Old password:</b>{" "}
+                    <input
+                        type="password"
+                        name="oldPassword"
+                        value={oldPassword}
+                        onChange={handleInputChange}
+                        className="ml-2"
+                    />{" "}
+                </p>
+            </div>
 
-          <div>
-            <p>
-                <b>New password:</b>{" "}
-                <input
-                    type="password"
-                    name="newPassword"
-                    value={newPassword}
-                    onChange={handleInputChange}
-                />{" "}
-            </p>
-          </div>
+            <div>
+                <p>
+                    <b>New password:</b>{" "}
+                    <input
+                        type="password"
+                        name="newPassword"
+                        value={newPassword}
+                        onChange={handleInputChange}
+                        className="ml-2"
+                    />{" "}
+                </p>
+            </div>
 
 
-          <button onClick={changePassword} disabled={!canSave}>
+          <button className="btn btn-primary" onClick={changePassword} disabled={!canSave}>
             Save
           </button>
         </div>)
-
 };
 
 export default ChangePasswordComponent;

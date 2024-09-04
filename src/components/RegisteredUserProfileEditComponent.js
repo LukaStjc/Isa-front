@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import authHeader from "../services/auth-header";
+import "../css/UserProfile.css";
 
 const RegisteredUserProfileEditComponent = () => {
 
@@ -92,10 +93,6 @@ const RegisteredUserProfileEditComponent = () => {
         }else{
             console.error("Form contains errors", errors);
         }
-        
-
-
-
 
     };
 
@@ -111,24 +108,20 @@ const RegisteredUserProfileEditComponent = () => {
             streetNumber
         ].every((v)=>v);   
 
-
-
-
-
-
-
-
-
     return ( currentUser ? 
-        (<div>
+        (<div className="user-data">
+          <h2 style={{ padding: "20px" }} className="text-center">
+            Edit Personal Information
+          </h2>
           <div>
             <label>
-              First Name:
+            <b>First Name:</b>
               <input
                 type="text"
                 name="firstName"
                 value={firstName}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.firstName && (
                 <div style={{ color: "red" }}>{errors.firstName}</div>
@@ -137,12 +130,13 @@ const RegisteredUserProfileEditComponent = () => {
           </div>
           <div>
             <label>
-              Last Name:
+            <b>Last Name:</b>
               <input
                 type="text"
                 name="lastName"
                 value={lastName}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.lastName && (
                 <div style={{ color: "red" }}>{errors.lastName}</div>
@@ -150,13 +144,19 @@ const RegisteredUserProfileEditComponent = () => {
             </label>
           </div>
           <div>
+            <p>
+              <b>Email:</b> {currentUser?.email}
+            </p>
+          </div>
+          <div>
             <label>
-              Telephone:
+            <b>Telephone number:</b>
               <input
                 type="text"
                 name="telephoneNumber"
                 value={telephoneNumber}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.telephoneNumber && (
                 <div style={{ color: "red" }}>{errors.telephoneNumber}</div>
@@ -164,13 +164,36 @@ const RegisteredUserProfileEditComponent = () => {
             </label>
           </div>
           <div>
+            <p>
+              <b>Penalty points:</b> {currentUser.penaltyPoints}
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Loyalty program:</b> {currentUser.loyaltyProgram.type} (Benefits
+              include {currentUser.loyaltyProgram.discount_rate}% discount for every
+              future purchase.)
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Hospital:</b> {currentUser.hospital.name}
+            </p>
+          </div>
+          <div>
+            <p>
+              <b>Occupation:</b> {currentUser.occupation}
+            </p>
+          </div>
+          <div>
             <label>
-              Country:
+            <b>Country:</b>
               <input
                 type="text"
                 name="country"
                 value={country}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.country && (
                 <div style={{ color: "red" }}>{errors.country}</div>
@@ -179,24 +202,26 @@ const RegisteredUserProfileEditComponent = () => {
           </div>
           <div>
             <label>
-              City:
+            <b>City:</b>
               <input
                 type="text"
                 name="city"
                 value={city}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.city && <div style={{ color: "red" }}>{errors.city}</div>}
             </label>
           </div>
           <div>
             <label>
-              Street Name:
+            <b>Street Name:</b>
               <input
                 type="text"
                 name="streetName"
                 value={streetName}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.streetName && (
                 <div style={{ color: "red" }}>{errors.streetName}</div>
@@ -205,33 +230,23 @@ const RegisteredUserProfileEditComponent = () => {
           </div>
           <div>
             <label>
-              Street Number:
+            <b>Street Number:</b>
               <input
                 type="text"
                 name="streetNumber"
                 value={streetNumber}
                 onChange={handleInputChange}
+                className="ml-2"
               />
               {errors.streetNumber && (
                 <div style={{ color: "red" }}>{errors.streetNumber}</div>
               )}
             </label>
           </div>
-          <button onClick={updateUser} disabled={!canSave}>
+          <button className="btn btn-primary mr-3" onClick={updateUser} disabled={!canSave}>
             Save
           </button>
         </div>) : <div>Please log in!</div>
       );
-
-
-
-
-
-
-
-
-
-
-    
 };
 export default RegisteredUserProfileEditComponent;
