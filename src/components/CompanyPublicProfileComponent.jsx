@@ -242,6 +242,10 @@ class CompanyPublicProfileComponent extends Component {
         }
         return total.toFixed(2); // Format to 2 decimal places
     }
+
+    createCustomAppoinment = () => {
+        this.props.history.push(`/customAppointment/${this.state.companyId}`);
+    }
     
 
 
@@ -403,6 +407,8 @@ class CompanyPublicProfileComponent extends Component {
                                             <h5>After discount: ${this.calculateTotal()}</h5>
                                             <button style={{marginRight: 10, marginTop: 20}} onClick={this.prevStep} className="btn btn-secondary btn-lg">Back</button>
                                             <button style={{marginRight: 10, marginTop: 20}} onClick={this.createReservation} className="btn btn-primary btn-lg">Create Reservation</button>
+                                            <button style={{marginRight: 10, marginTop: 20}} onClick={this.createCustomAppoinment} className="btn btn-primary btn-lg">Custom Appointment</button>
+                                            
                                         </div>
                                     }  
                                 </div>

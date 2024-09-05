@@ -52,9 +52,9 @@ const AppointmentList = () => {
   
     return (
       <div>
-        <h4>
+        <h2 style={{ padding: "20px" }} className="text-center">
           Scheduled appointments for equipment that has not yet been collected
-        </h4>
+        </h2>
         <table className="table table-striped table-bordered">
           <thead>
             <tr>
@@ -75,7 +75,7 @@ const AppointmentList = () => {
                 <td>{appointment?.durationMinutes}</td>
                 <td>{appointment?.items.map((item) => <p>{item?.equipmentName} ({item?.quantity})</p>)}</td>
                 <td>
-                  <button
+                  <button className="btn btn-primary"
                     onClick={() => {
                       cancelAppointment(appointment?.id);
                     }}

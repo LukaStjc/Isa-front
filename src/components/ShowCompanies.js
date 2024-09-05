@@ -25,6 +25,36 @@ const ShowCompanies = () => {
         history.push(`/api/companies/${id}`);
     };
 
+    const rateCompany = async (company) => {
+      try {
+        const response = await fetch(
+          `http://localhost:8082/api/ratings/canUserRate/${company.id}`,
+          {
+            method: "GET",
+            headers: authHeader(),
+          }
+        );
+  
+        if (response.ok) {
+          const data = await response.json(); 
+          console.log("Data received:", data);
+          if (data){
+            history.push(`/rateCompany`, {company});
+          }else{
+            alert("You are not allowed to rate this company.")
+          }
+          
+        } else {
+          throw new Error("Failed to fetch data!");
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        
+      }
+    };
+
+
+
     const handleInputChange = (e) => {
         setSearchParams({
             ...searchParams,
@@ -66,17 +96,10 @@ const ShowCompanies = () => {
         };
 
 
-
-
-
-
-
-
-
     return (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ flex: 1, marginRight: "20px" }}>
-            <h2>Search and Filter</h2>
+            <h2 style={{ paddingTop: "20px", paddingBottom: "20px" }}>Search and Filter</h2>
             <div>
               <label htmlFor="name">Name:</label>
               <input
@@ -85,6 +108,7 @@ const ShowCompanies = () => {
                 name="name"
                 value={searchParams.name}
                 onChange={handleInputChange}
+                style={{ width: '50%' }}
               />
             </div>
             <div>
@@ -95,6 +119,7 @@ const ShowCompanies = () => {
                 name="city"
                 value={searchParams.city}
                 onChange={handleInputChange}
+                style={{ width: '50%' }}
               />
             </div>
             <div>
@@ -105,6 +130,7 @@ const ShowCompanies = () => {
                 name="minScore"
                 value={searchParams.minScore}
                 onChange={handleInputChange}
+                style={{ width: '50%' }}
               />
             </div>
             {loggedIn && (
@@ -116,6 +142,7 @@ const ShowCompanies = () => {
                   name="maxDistance"
                   value={searchParams.maxDistance}
                   onChange={handleInputChange}
+                  style={{ width: '50%' }}
                 />
               </div>
             )}
@@ -145,10 +172,10 @@ const ShowCompanies = () => {
                 <option value="desc">Descending</option>
               </select>
             </div>
-            <button onClick={handleSubmit}>Search</button>
+            <button className="btn btn-primary mt-3" onClick={handleSubmit}>Search</button>
           </div>
           <div style={{ flex: 2 }}>
-            <h2>Results</h2>
+            <h2 style={{ paddingTop: "20px", paddingBottom: "20px" }}>Results</h2>
             <table className="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -158,6 +185,7 @@ const ShowCompanies = () => {
                   {loggedIn && (<th>Distance (km)</th>)}
                   <th>Average score</th>
                   <th>Details</th>
+                  {loggedIn && (<th>Rating</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -173,11 +201,22 @@ const ShowCompanies = () => {
                         onClick={() => {
                           showCompany(company?.id);
                         }}
-                        class="btn btn-secondary"
+                        className="btn btn-primary"
                       >
                         Show
                       </button>
                     </td>
+                    <td>
+                      {loggedIn && (
+                        <button className="btn btn-primary"
+                          onClick={() => {
+                            rateCompany(company);
+                          }}
+                        >
+                          Rate
+                        </button>
+                      )}
+                  </td>
                   </tr>
                 ))}
               </tbody>
@@ -185,17 +224,6 @@ const ShowCompanies = () => {
           </div>
         </div>
       );
-
-
-
-
-
-
-
-
-
-
-
 };
 
 export default ShowCompanies;

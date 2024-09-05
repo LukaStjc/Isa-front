@@ -44,6 +44,10 @@ import ShowAppointments from "./components/AppointmentListComponent";
 import CompanyAdminReservationsViewComponent from "./components/CompanyAdminReservationsViewComponent"
 import CompanyAdminAvailableReservationsComponent from "./components/CompanyAdminAvailableReservationsComponent";
 import HelloComponent from './components/HelloComponent'
+import CollectedHistory from "./components/CollectedHistory";
+import QRComponent from "./components/QRComponent"; 
+import RateCompanyComponent from "./components/RateCompanyComponent";
+import CustomAppointmentComponent from "./components/CustomAppointmentComponent";
 
 class App extends Component {
   constructor(props) {
@@ -56,7 +60,8 @@ class App extends Component {
       showRegisteredUserBoard: false,
       currentUser: undefined,
       companyId: null,
-      lastVisitedUrl: ""
+      lastVisitedUrl: "",
+      penaltyPoints:null
     };
   }
 
@@ -80,6 +85,8 @@ class App extends Component {
           console.error("Error fetching company ID:", error);
       });    
     }
+
+    this.setState({penaltyPoints:user.penaltyPoints});
     
 
     }
@@ -131,7 +138,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark" key={lastVisitedUrl}>
-          <Link to={"/api/companies"} className="navbar-brand">
+          <Link to={"/showCompanies"} className="navbar-brand">
               <img src={logoImage} style={{ width: 'auto', height: '30px', marginLeft: '20px' }} /> 
           </Link>
           <div className="navbar-nav mr-auto">
@@ -196,7 +203,7 @@ class App extends Component {
                 </Link>
               </li>
               <li>
-                <Link to={"/api/companies"} className="nav-link">
+                <Link to={"/appointmentsHistory"} className="nav-link">
                   History
                 </Link>
               </li>
@@ -206,17 +213,17 @@ class App extends Component {
                 </Link>
               </li>
               <li>
-                <Link to={"/api/companies"} className="nav-link">
+                <Link to={"/qrReservations"} className="nav-link">
                   QR
                 </Link>
               </li>
               <li>
-                <Link to={"/api/companies"} className="nav-link">
+                <Link to={"/..."} className="nav-link" title={`You have ${this.state.penaltyPoints} penalty points`}>
                   Penalty
                 </Link>
               </li>
               <li>
-                <Link to={"/api/companies"} className="nav-link">
+                <Link to={"/..."} className="nav-link">
                   Complaint
                 </Link>
               </li>
@@ -268,6 +275,10 @@ class App extends Component {
             <Route exact path="/showCompanies" component={ShowCompanies} />
             <Route exact path="/showAppointments" component={ShowAppointments} />
             <Route exact path="/welcome" component={HelloComponent} />
+            <Route exact path="/appointmentsHistory" component={CollectedHistory} />
+            <Route exact path="/qrReservations" component={QRComponent} />
+            <Route exact path="/rateCompany" component={RateCompanyComponent} />
+            <Route exact path="/customAppointment/:id" component={CustomAppointmentComponent} />
             <Route path="/user" component={BoardUser} />
             <Route path="/company-admin" component={BoardCompanyAdmin} />
             <Route path="/system-admin" component={BoardSystemAdmin} />
