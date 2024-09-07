@@ -30,6 +30,20 @@ class ViewCompanyComponent extends Component {
         this.updateCompany = this.updateCompany.bind(this);
         this.addEquipment = this.addEquipment.bind(this);
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        // If the route changes, fetch the company data
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.fetchCompany();
+        }
+
+        // If the equipment data is updated, refetch the company data to get the latest state
+        if (this.state.companyData !== prevState.companyData) {
+            this.fetchCompany();
+        }
+    }
+    
+
     // Vasilije
     resetQuantity = (equipmentId) => {
         this.setState(prevState => {
@@ -139,9 +153,27 @@ class ViewCompanyComponent extends Component {
     addEquipment(companyId){
         this.props.history.push(`/api/equipment/create/${companyId}`)
     }
-    editEquipment(equipmentId){
-        this.props.history.push(`/api/equipment/update/${equipmentId}`)
+    editEquipment(equipmentId) {
+        EquipmentService.getEquipmentById(equipmentId)
+            .then(res => {
+                const equipment = res.data;
+                const currentVersion = equipment.version;
+    
+                const newVersion = this.state.companyData.equipment.find(e => e.id === equipmentId).version;
+    
+                if (currentVersion !== newVersion) {
+                    alert('The equipment data has changed. Please reload and try again.');
+                    window.location.reload();
+                } else {
+                    this.props.history.push(`/api/equipment/update/${equipmentId}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching equipment:', error);
+                alert('There was an error fetching equipment details.');
+            });
     }
+    
     showCalendar(){
         this.props.history.push(`/api/company-admins/company-working-days`)
         
