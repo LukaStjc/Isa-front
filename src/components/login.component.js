@@ -68,7 +68,7 @@ export default class Login extends Component {
 
             
           }
-             this.props.history.push("/welcome");
+            //  this.props.history.push("/welcome");
 
           window.location.reload();
         },
