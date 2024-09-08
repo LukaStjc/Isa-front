@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, version } from 'react';
 import { withRouter } from 'react-router-dom';
 import EquipmentService from '../services/EquipmentService';
 import { Redirect } from 'react-router-dom';
@@ -14,6 +14,7 @@ class UpdateEquipmentComponent extends Component {
             equipmentType: '',
             price: 0,
             quantity: 0,
+            version: 0,
             user: JSON.parse(localStorage.getItem('user')) || {},
         }
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -34,7 +35,8 @@ class UpdateEquipmentComponent extends Component {
                 equipmentType: equipment.equipmentType,
                 price: equipment.price,
                 companyId: equipment.companyId,
-                quantity: equipment.quantity,              
+                quantity: equipment.quantity,  
+                version: equipment.version            
     }) 
         })
     }
@@ -56,25 +58,79 @@ class UpdateEquipmentComponent extends Component {
     }
     
     
-    updateEquipment= async(e) =>{
-        e.preventDefault();
+    // updateEquipment= async(e) =>{
+    //     e.preventDefault();
 
-        let equipment = {name: this.state.name, description: this.state.description, id: this.state.equipmentId, equipmentType: this.state.equipmentType, 
-            price: this.state.price, quantity: this.state.quantity};
-        console.log('equipment =>' + JSON.stringify(equipment));
+    //     let equipment = {name: this.state.name, description: this.state.description, id: this.state.equipmentId, equipmentType: this.state.equipmentType, 
+    //         price: this.state.price, quantity: this.state.quantity};
+    //     console.log('equipment =>' + JSON.stringify(equipment));
 
-        try{
-            await EquipmentService.updateEquipment(equipment.id, equipment);
+    //     try{
+    //         await EquipmentService.updateEquipment(equipment.id, equipment);
 
-            //this.props.history.push('/api/companies/' + this.state.equipment.companyId);
-            this.props.history.goBack();
+    //         //this.props.history.push('/api/companies/' + this.state.equipment.companyId);
+    //         this.props.history.goBack();
             
-        }catch(error){
-            console.error('Error creating equipment:', error);
-        }
+    //     }catch(error){
+    //         console.error('Error creating equipment:', error);
+    //     }
         
-        //window.location.reload(); // jer nece da mi ucita komponent koji je na /api/companies putanji
+    //     //window.location.reload(); // jer nece da mi ucita komponent koji je na /api/companies putanji
+    // }
+
+    updateEquipment = async (e) => {
+        e.preventDefault();
+    
+        let equipment = {
+            name: this.state.name,
+            description: this.state.description,
+            id: this.state.equipmentId,
+            equipmentType: this.state.equipmentType,
+            price: this.state.price,
+            quantity: this.state.quantity,
+            version: this.state.version
+        };
+    
+        try {
+            await EquipmentService.updateEquipment(equipment.id, equipment);
+            this.props.history.push(`/api/company-admin/company/${this.state.companyId}`);
+        } catch (error) {
+            if (error.response) {
+                if (error.response.status === 409) {
+                    alert('The equipment has been modified by another user. Please reload and try again.');
+                    this.componentDidMount(); // Reload the equipment data
+                } else if (error.response.status === 404) {
+                    alert('The equipment has been deleted by another user.');
+                    this.props.history.push(`/api/company-admin/company/${this.state.companyId}`);
+                } else {
+                    console.error('Error updating equipment:', error);
+                }
+            } else {
+                console.error('Error updating equipment:', error);
+            }
+        }
     }
+    
+    
+
+    fetchLatestEquipmentData = async () => {
+        try {
+            const res = await EquipmentService.getEquipmentById(this.state.equipmentId);
+            let equipment = res.data;
+            this.setState({
+                name: equipment.name,
+                description: equipment.description,
+                equipmentType: equipment.equipmentType,
+                price: equipment.price,
+                companyId: equipment.companyId,
+                quantity: equipment.quantity,
+                version: equipment.version
+            });
+        } catch (error) {
+            console.error('Error fetching updated equipment data:', error);
+        }
+    }
+    
 
 
     render() {
@@ -141,12 +197,12 @@ class UpdateEquipmentComponent extends Component {
     
                                 <div>
                                     <label>Quantity: </label>
-                                    <input placeholder='Name' name='quantity' className='form-control'
+                                    <input  name='quantity' className='form-control'
                                             value={this.state.quantity} onChange={this.changeQuantityHandler}/>
                                 </div>
                                 
                                 <button className='btn btn-success' onClick={this.updateEquipment} style={buttonStyle}>Save changes</button>
-                            
+                                <p>Disclamer: The change might need a few seconds to load on the company's profile page</p>
                             </form>
                         </div>
                     </div>
