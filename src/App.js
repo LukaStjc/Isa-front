@@ -48,6 +48,7 @@ import CollectedHistory from "./components/CollectedHistory";
 import QRComponent from "./components/QRComponent"; 
 import RateCompanyComponent from "./components/RateCompanyComponent";
 import CustomAppointmentComponent from "./components/CustomAppointmentComponent";
+import CompanyContractsComponent from "./components/CompanyContractsComponent";
 
 class App extends Component {
   constructor(props) {
@@ -307,6 +308,7 @@ class App extends Component {
             <Route path="/change-password" component={CompanyAdminChangePassword} exact />
             <Route path="/api/reservations/get-users" component={CompanyAdminReservationsViewComponent} exact />
             <Route path="/api/reservations/available" component={CompanyAdminAvailableReservationsComponent} exact />
+            <Route path="/api/contracts/active" component={CompanyContractsComponent} exact />
 
 
 

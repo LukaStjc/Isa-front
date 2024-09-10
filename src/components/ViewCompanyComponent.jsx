@@ -201,6 +201,9 @@ class ViewCompanyComponent extends Component {
     createPredefinedReservation(companyId){
         this.props.history.push(`/api/companies/${companyId}/create-reservation`)
     }
+    showActiveContracts(){
+        this.props.history.push(`/api/contracts/active`)
+    }
 
     componentDidMount(){
         // Postavljanje user-a iz lokalnog skladišta u stanje komponente
@@ -302,6 +305,9 @@ class ViewCompanyComponent extends Component {
                                 <p>City: {companyData.location.city}</p>
                                 <p>Street name: {companyData.location.street}</p>
                                 <p>Street number: {companyData.location.streetNumber}</p>
+                            </div>
+                            <div>
+                            <button onClick={() => this.showActiveContracts(this.state.companyId)} className='btn btn-primary mr-1'>Active contracts</button>    
                             </div>
                             <div>
                                 <h2>Equipment</h2>
