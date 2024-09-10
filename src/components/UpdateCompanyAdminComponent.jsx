@@ -13,7 +13,6 @@ class UpdateCompanyAdminComponent extends Component {
         super(props)
 
         this.state = {
-            adminId: props.match.params.id, // Accessing the id parameter from the URL
             firstName: '',
             lastName: '',
             email: '',
@@ -29,7 +28,7 @@ class UpdateCompanyAdminComponent extends Component {
         this.updateCompanyAdmin  = this.updateCompanyAdmin.bind(this);
     }
     componentDidMount(){
-        CompanyAdminService.findBy(this.state.adminId).then((res) =>{
+        CompanyAdminService.findBy(this.state.user.id).then((res) =>{
             let admin= res.data;
             this.setState({firstName: admin.firstName,
                 lastName: admin.lastName,

@@ -18,8 +18,7 @@ class CompanyAdminHomeComponent extends Component {
     }
 
     updateCompanyAdmin() {
-        const { adminId } = this.state; // Use adminId from state
-        this.props.history.push(`/api/company-admins/update/` + adminId);
+        this.props.history.push(`/api/company-admins/update`);
     }
 
     showCalendar() {
@@ -53,21 +52,12 @@ class CompanyAdminHomeComponent extends Component {
 
         if (user && user.roles && (user.roles.includes('ROLE_COMPANY_ADMIN'))) {
             return (
-                <div>
-                    <div>
-                        {/* Additional content can go here */}
-                    </div>
-                    <div>
-                        <button onClick={() => this.updateCompanyAdmin()} className='btn-btn-info'>Update company admin</button>
-                    </div>
-                    <div>
-                        <button onClick={() => this.showCalendar()} className='btn-btn-info'>Show calendar</button>
-                    </div>
-                    <div>
-                        <button onClick={() => this.showUsersWithReservations()} className='btn-btn-info'>Show users that made reservations</button>
-                    </div>
-                    <div>
-                        <button onClick={() => this.showAvailableReservations()} className='btn-btn-info'>Available reservations</button>
+                <div style={styles.container}>
+                    <div style={styles.buttonContainer}>
+                        <button onClick={() => this.updateCompanyAdmin()} style={styles.button}>Update Profile</button>
+                        <button onClick={() => this.showCalendar()} style={styles.button}>Show Calendar</button>
+                        <button onClick={() => this.showUsersWithReservations()} style={styles.button}>Show Users with Reservations</button>
+                        <button onClick={() => this.showAvailableReservations()} style={styles.button}>Available Reservations</button>                    
                     </div>
                 </div>
             );
@@ -77,4 +67,27 @@ class CompanyAdminHomeComponent extends Component {
     }
 }
 
+const styles = {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        padding: '20px',
+    },
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '15px',
+    },
+    button: {
+        padding: '10px 20px',
+        fontSize: '16px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        backgroundColor: '#17a2b8',
+        color: 'white',
+    }
+};
 export default CompanyAdminHomeComponent;

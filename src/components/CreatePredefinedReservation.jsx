@@ -17,7 +17,9 @@ class CreatePredefinedReservation extends Component {
             adminId: '',
             companyId: props.match.params.id,
             user: JSON.parse(localStorage.getItem('user')) || {},
-            admins: []  // Moved inside the state object
+            admins: [],  // Moved inside the state object
+            companyOpeningTime: null,
+            companyClosingTime: null,
         };
 
         this.changeselectedDateTimeHandler = this.changeselectedDateTimeHandler.bind(this);
@@ -75,11 +77,13 @@ class CreatePredefinedReservation extends Component {
             // If successful, redirect to another page
             this.props.history.push('/api/company-admin/company/' + this.state.companyId);
         } catch (error) {
-            // Handle the error by displaying a message
-            console.error('Error creating reservation:', error);
-            
-            // Display a user-friendly alert or notification
-            alert('An error occurred while creating the reservation. Please try again later.');
+            console.log('Error object:', error); // Log the error object
+            if (error.response && error.response.status === 400) {
+                console.log('Backend error response:', error.response); // Log the error response
+                alert(error.response.data); // This should display the backend message
+            } else {
+                alert('An error occurred while creating the reservation. Please try again later.');
+            }
         }
     }
     
