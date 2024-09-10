@@ -9,11 +9,11 @@ class CompanyAdminHomeComponent extends Component {
         // Get user from local storage
         const user = JSON.parse(localStorage.getItem('user')) || {};
         
-        // Set adminId from user id if it exists
         this.state = {
             adminId: user.id,
             admin: null,
             user: user,
+            companyId: null,  // Add companyId to state
         };
     }
 
@@ -34,16 +34,37 @@ class CompanyAdminHomeComponent extends Component {
         this.props.history.push(`/api/reservations/available`);    
     }
 
+    createPredefinedReservation() {
+        const { companyId } = this.state;  // Use companyId from state
+        if (companyId) {
+            this.props.history.push(`/api/companies/${companyId}/create-reservation`);
+        } else {
+            console.error('Company ID not available');
+        }
+    }
+
     componentDidMount() {
         const { adminId } = this.state; // Use adminId from state
+        
+        // Fetch the admin details
         CompanyAdminService.findBy(adminId)
             .then((res) => {
-                // Handle the response and update the state with company data
+                // Handle the response and update the state with admin data
                 this.setState({ admin: res.data });
             })
             .catch(error => {
                 // Handle error if necessary
                 console.error('Error fetching admin:', error);
+            });
+        
+        // Fetch the company ID associated with this admin
+        CompanyAdminService.getCompanyIdBy(adminId)
+            .then((res) => {
+                // Update the state with company ID
+                this.setState({ companyId: res.data });
+            })
+            .catch(error => {
+                console.error('Error fetching company ID:', error);
             });
     }
 
@@ -58,6 +79,7 @@ class CompanyAdminHomeComponent extends Component {
                         <button onClick={() => this.showCalendar()} style={styles.button}>Show Calendar</button>
                         <button onClick={() => this.showUsersWithReservations()} style={styles.button}>Show Users with Reservations</button>
                         <button onClick={() => this.showAvailableReservations()} style={styles.button}>Available Reservations</button>                    
+                        <button onClick={() => this.createPredefinedReservation()} style={styles.button}>Add predefined appointment</button>                    
                     </div>
                 </div>
             );
@@ -90,4 +112,5 @@ const styles = {
         color: 'white',
     }
 };
+
 export default CompanyAdminHomeComponent;
