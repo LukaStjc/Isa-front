@@ -44,14 +44,22 @@ class CompanyAdminAvailableReservationsComponent extends Component {
             if (err.response && err.response.status === 409) {
                 alert('You are not able to complete this reservation. Please try again later.');
             } else if (err.response && err.response.status === 400) {
-                // Check if the error message contains the specific issue with insufficient equipment
-                alert(err.response.data.message || 'An error occurred due to insufficient equipment quantity. Please review your reservation and try again.');
+                // Check if the error message contains the specific issue with insufficient equipment or time check
+                const errorMessage = err.response.data.message;
+    
+                if (errorMessage && errorMessage.includes("hasn't started yet")) {
+                    // Custom error when trying to complete a reservation that hasn't started yet
+                    alert('The reservation cannot be marked as completed because it hasn\'t started yet.');
+                } else {
+                    alert(errorMessage || 'An error occurred due to insufficient equipment quantity. Please review your reservation and try again.');
+                }
             } else {
                 console.error("Error marking reservation as completed:", err);
                 alert('An error occurred while marking the reservation as completed. Please try again.');
             }
         }
     }
+    
     
     // MarkAllCompleted = async () => {
     //     const { reservations } = this.state;

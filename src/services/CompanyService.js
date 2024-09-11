@@ -20,10 +20,16 @@ class CompanyService{
     }
     
     createCompany(CompanyLocationDTO){
-        return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO)
+        return axios.post(COMPANY_API_BASE_URL, CompanyLocationDTO,)
     }
     updateCompany(companyId, CompanyLocationDTO){
-        return axios.put(COMPANY_API_BASE_URL+ '/update/' + companyId, CompanyLocationDTO)
+        return axios.put(COMPANY_API_BASE_URL+ '/update/' + companyId, CompanyLocationDTO, { headers: authHeader() }).catch(error => {
+            console.error('Error updating company:', error);
+            if (error.response) {
+                console.log('Response data:', error.response.data);
+                console.log('Response status:', error.response.status);
+            }
+        });
     }
 
     searchCompanies(searchText) {

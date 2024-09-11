@@ -12,6 +12,7 @@ class UpdateEquipmentComponent extends Component {
             equipmentId: props.match.params.id,
             companyId : '',
             equipmentType: '',
+            equipmentTypes: [],
             price: 0,
             quantity: 0,
             version: 0,
@@ -27,7 +28,13 @@ class UpdateEquipmentComponent extends Component {
 
     
     }
-    componentDidMount(){
+    componentDidMount= async (e) => {
+        try {
+            const response = await EquipmentService.getEquipmentTypes(); // Fetch equipment types from service
+            this.setState({ equipmentTypes: response.data });
+        } catch (error) {
+            console.error('Error fetching equipment types:', error);
+        }
         EquipmentService.getEquipmentById(this.state.equipmentId).then((res) =>{
             let equipment= res.data;
             this.setState({name: equipment.name,
@@ -41,20 +48,47 @@ class UpdateEquipmentComponent extends Component {
         })
     }
 
-    changeNameHandler=(event) =>{
-        this.setState({name: event.target.value});
+    changeNameHandler = (event) => {
+        const value = event.target.value;
+        
+        // Allow any value if it's empty
+        // Otherwise, ensure the value contains only letters, numbers, spaces, hyphens, and apostrophes
+        // and contains at least one letter if it's not empty
+        if (value === '' || (/^[a-zA-Z0-9\s'-]*$/.test(value) && /[a-zA-Z]/.test(value))) {
+            this.setState({ name: value });
+        }
     }
-    changeDescriptionHandler=(event) =>{
-        this.setState({description: event.target.value});
+    
+    changeDescriptionHandler = (event) => {
+        const value = event.target.value;
+    
+        // Allow letters, numbers, spaces, hyphens, apostrophes, periods, commas, and exclamation marks
+        // Ensure the value is not just numbers or special characters
+        if (value === '' || (/^[a-zA-Z0-9\s'-]*$/.test(value) && /[a-zA-Z]/.test(value))) {
+            this.setState({ name: value });
+        }
     }
-    changeEquipmentTypeHandler=(event) =>{
-        this.setState({equipmentType: event.target.value});
+
+    changeEquipmentTypeHandler = (event) => {
+        this.setState({ equipmentType: event.target.value });
     }
-    changePriceHandler=(event) =>{
-        this.setState({price: event.target.value});
+
+    changePriceHandler = (event) => {
+        const value = event.target.value;
+
+        // Allow only decimal numbers
+        if (/^\d*\.?\d*$/.test(value)) {
+            this.setState({ price: value });
+        }
     }
-    changeQuantityHandler=(event) =>{
-        this.setState({quantity: event.target.value});
+
+    changeQuantityHandler = (event) => {
+        const value = event.target.value;
+
+        // Allow only numeric characters
+        if (/^\d*$/.test(value)) {
+            this.setState({ quantity: event.target.value });
+        }
     }
     
     
@@ -96,10 +130,15 @@ class UpdateEquipmentComponent extends Component {
             this.props.history.push(`/api/company-admin/company/${this.state.companyId}`);
         } catch (error) {
             if (error.response) {
-                if (error.response.status === 409) {
+                const { status, data } = error.response;
+                
+                if (status === 400) {
+                    // Show the error message from the backend
+                    alert(data.message || 'Please ensure all fields are filled out correctly.');
+                } else if (status === 409) {
                     alert('The equipment has been modified by another user. Please reload and try again.');
                     this.componentDidMount(); // Reload the equipment data
-                } else if (error.response.status === 404) {
+                } else if (status === 404) {
                     alert('The equipment has been deleted by another user.');
                     this.props.history.push(`/api/company-admin/company/${this.state.companyId}`);
                 } else {
@@ -110,6 +149,7 @@ class UpdateEquipmentComponent extends Component {
             }
         }
     }
+    
     
     
 
@@ -134,12 +174,12 @@ class UpdateEquipmentComponent extends Component {
 
 
     render() {
-        const { user } = this.state; 
+        const { user, equipmentTypes} = this.state; 
 
         const buttonStyle = {
             margin: '10px 0 0 0', // top right bottom left
           };
-          const equipmentTypes = ['type 1', 'type 2', 'type 3']
+           
 
           if ((user && user.roles && (user.roles.includes('ROLE_COMPANY_ADMIN'))))
           {
