@@ -179,16 +179,6 @@ class App extends Component {
                   Profile
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={"/company-admin"} className="nav-link">
-                  Board
-                </Link>
-              </li>
-              <li>
-                <Link to={"/api/companies"} className="nav-link">
-                  Companies
-                </Link>
-              </li>
               <li>
               <Link to={`/api/company-admin/company/${this.state.companyId}`} className="nav-link">
                   Company
