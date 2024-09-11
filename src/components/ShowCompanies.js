@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import authService from "../services/auth.service";
 import authHeader from "../services/auth-header";
@@ -19,6 +19,23 @@ const ShowCompanies = () => {
         sortBy: "name",
         sortOrder: "asc"
     });
+
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+      fetchData(); 
+    }, []); 
+
+    const validateField = (name, value) => {
+      let error = "";
+      if (value !== "" && ((name === "minScore" || name === "maxDistance") && (parseFloat(value) <= 0))) {
+          error = name === "minScore" ? "Minimum score must be greater than zero." : "Maximum distance must be greater than zero.";
+      }
+      setErrors(prev => ({ ...prev, [name]: error }));
+      return error === "";
+      };
+      
+
 
 
     const showCompany = (id) => {
@@ -53,47 +70,53 @@ const ShowCompanies = () => {
       }
     };
 
+    const canSave = 
+        Object.values(errors).every((err) => !err)    
+
 
 
     const handleInputChange = (e) => {
+        validateField(e.target.name, e.target.value);
         setSearchParams({
             ...searchParams,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleSubmit = async () => {
-        const queryParams = new URLSearchParams({
-          name: searchParams.name,
-          location: searchParams.city,
-          minScore: searchParams.minScore,
-          maxDistance: searchParams.maxDistance,
-          sortBy: searchParams.sortBy,
-          sortDirection: searchParams.sortOrder, 
-        }).toString();
+    const fetchData = async () => {
+      const queryParams = new URLSearchParams({
+        name: searchParams.name,
+        location: searchParams.city,
+        minScore: searchParams.minScore,
+        maxDistance: searchParams.maxDistance,
+        sortBy: searchParams.sortBy,
+        sortDirection: searchParams.sortOrder, 
+      }).toString();
 
-
-        
-        try {
-            const response = await fetch(
-              `http://localhost:8082/api/companies/searchByNameOrLocation?${queryParams}`,
-              {
-                method: "GET",
-                headers: authHeader()
-              }
-            );
-       
-            if (response.ok) {
-              const data = await response.json(); 
-              console.log("Data received:", data);
-              setCompanies(data);
-            } else {
-              throw new Error("Failed to fetch data!");
+      try {
+          const response = await fetch(
+            `http://localhost:8082/api/companies/searchByNameOrLocation?${queryParams}`,
+            {
+              method: "GET",
+              headers: authHeader()
             }
-          } catch (error) {
-            console.error("Error:", error.message);
+          );
+
+          if (response.ok) {
+            const data = await response.json(); 
+            console.log("Data received:", data);
+            setCompanies(data);
+          } else {
+            throw new Error("Failed to fetch data!");
           }
-        };
+      } catch (error) {
+          console.error("Error:", error.message);
+      }
+  };
+
+  const handleSubmit = () => {
+      fetchData();
+  };
 
 
     return (
@@ -132,6 +155,7 @@ const ShowCompanies = () => {
                 onChange={handleInputChange}
                 style={{ width: '50%' }}
               />
+              {errors.minScore && <div style={{ color: "red" }}>{errors.minScore}</div>}
             </div>
             {loggedIn && (
               <div>
@@ -144,6 +168,7 @@ const ShowCompanies = () => {
                   onChange={handleInputChange}
                   style={{ width: '50%' }}
                 />
+                {errors.maxDistance && <div style={{ color: "red" }}>{errors.maxDistance}</div>}
               </div>
             )}
      
@@ -172,7 +197,7 @@ const ShowCompanies = () => {
                 <option value="desc">Descending</option>
               </select>
             </div>
-            <button className="btn btn-primary mt-3" onClick={handleSubmit}>Search</button>
+            <button className="btn btn-primary mt-3" onClick={handleSubmit} disabled={!canSave}>Search</button>
           </div>
           <div style={{ flex: 2 }}>
             <h2 style={{ paddingTop: "20px", paddingBottom: "20px" }}>Results</h2>

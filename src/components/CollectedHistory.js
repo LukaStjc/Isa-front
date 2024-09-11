@@ -1,21 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import authHeader from "../services/auth-header";
 
 const CollectedHistory = () => {
   const [history, setHistory] = useState([]);
   const [searchParams, setSearchParams] = useState({
-    sortBy: "totalSum", // Default sort by name
-    sortDirection: "asc", // Default sort order ascending
+    sortBy: "startingDate", 
+    sortDirection: "asc",
   });
 
-  const handleInputChange = (e) => {
-    setSearchParams({
-      ...searchParams,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async () => {
+  
+  const fetchData = async () => {
     const queryParams = new URLSearchParams({
       sortBy: searchParams.sortBy,
       sortDirection: searchParams.sortDirection,
@@ -31,17 +25,31 @@ const CollectedHistory = () => {
       );
 
       if (response.ok) {
-        const data = await response.json(); // Assuming the server returns JSON data
+        const data = await response.json();
         console.log("Data received:", data);
         setHistory(data);
-        // You can handle the data here, for example, updating state or displaying in the UI
       } else {
         throw new Error("Failed to fetch data!");
       }
     } catch (error) {
       console.error("Error:", error.message);
-      // Handle errors more specifically if needed
     }
+  };
+
+  
+  useEffect(() => {
+    fetchData();
+  }, []);  
+
+  const handleInputChange = (e) => {
+    setSearchParams({
+      ...searchParams,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    fetchData();  
   };
 
   return (
@@ -56,9 +64,9 @@ const CollectedHistory = () => {
             value={searchParams.sortBy}
             onChange={handleInputChange}
           >
+            <option value="startingDate">Starting Date</option>
             <option value="totalSum">Total Sum</option>
             <option value="durationMinutes">Duration Minutes</option>
-            <option value="startingDate">Starting Date</option>
           </select>
         </div>
         <div>
@@ -89,15 +97,15 @@ const CollectedHistory = () => {
           </thead>
           <tbody>
             {history.map((appointment) => (
-              <tr key={appointment?.id}>
-                <td>{appointment?.id}</td>
-                <td>{appointment?.totalSum}</td>
-                <td>{appointment?.startingDate}</td>
-                <td>{appointment?.durationMinutes}</td>
+              <tr key={appointment.id}>
+                <td>{appointment.id}</td>
+                <td>{appointment.totalSum}</td>
+                <td>{appointment.startingDate}</td>
+                <td>{appointment.durationMinutes}</td>
                 <td>
-                  {appointment?.items.map((item) => (
-                    <p>
-                      {item?.equipmentName} ({item?.quantity})
+                  {appointment.items.map((item, index) => (
+                    <p key={index}>
+                      {item.equipmentName} ({item.quantity})
                     </p>
                   ))}
                 </td>

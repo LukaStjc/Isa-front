@@ -14,33 +14,10 @@ const CustomAppointmentComponent = () => {
   const [raw, setRaw] = useState([]);
   const [appointments, setAppointments] = useState([]);
 
-  function formatDateSlots(dataArray) {
-    return dataArray.map((item) => {
-      try {
-        // Parse the date string into a Date object
-        const parsedDate = parse(
-          item.dateSlot,
-          "EEE MMM dd HH:mm:ss 'CET' yyyy",
-          new Date()
-        );
-        // Format the date as "January 8, 2025 at 9:20:00 AM"
-        const formattedDate = format(
-          parsedDate,
-          "MMMM d, yyyy 'at' h:mm:ss aaa"
-        );
-        // Return a new object with the formatted date
-        return { ...item, dateSlot: formattedDate };
-      } catch (error) {
-        console.error("Error formatting date:", error);
-        // Return the item unchanged in case of an error
-        return item;
-      }
-    });
-  }
 
   const handleSubmit = async () => {
     const queryParams = new URLSearchParams({
-      dateString: date,
+      date: date,
       companyId: id,
     }).toString();
 
@@ -57,9 +34,10 @@ const CustomAppointmentComponent = () => {
         const data = await response.json();
         console.log("Data received:", data);
         setRaw(data);
-        const formatedData = formatDateSlots(data);
-        setAppointments(formatedData);
+        //const formatedData = formatDateSlots(data);
+        setAppointments(data);
       } else {
+        alert("Invalid shape of date!!!")
         throw new Error("Failed to fetch data!");
       }
     } catch (error) {
@@ -98,7 +76,8 @@ const CustomAppointmentComponent = () => {
       alert("Success!");
       history.push('/showAppointments')
     } else {
-      console.error("ERROR!");
+      const message = await response.text();
+      alert(message);
     }
   };
 

@@ -1,50 +1,50 @@
+/* RateCompany.css */
 .rate-company {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .label {
-    display: block;
-    font-weight: bold;
-  }
-  
-  input[type="number"],
-  input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .checkbox-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .checkbox-group input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.rate-company .form-group {
+  margin-bottom: 20px;
+}
+
+.rate-company .label {
+  display: block;
+  font-weight: bold;
+}
+
+.rate-company input[type="number"],
+.rate-company input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.rate-company .checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rate-company .checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.rate-company button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rate-company button:hover {
+  background-color: #0056b3;
+}

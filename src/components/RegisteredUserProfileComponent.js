@@ -87,6 +87,11 @@ const RegisteredUserProfileComponent = () => {
               </div>
               <div>
                 <p>
+                  <b>Collected Points:</b> {currentUser.points}
+                </p>
+              </div>
+              <div>
+                <p>
                   <b>Country:</b> {currentUser.location.country}
                 </p>
               </div>

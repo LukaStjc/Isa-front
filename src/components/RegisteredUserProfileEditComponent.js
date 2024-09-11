@@ -26,7 +26,9 @@ const RegisteredUserProfileEditComponent = () => {
             error = "This field cannot be empty.";
         }else if(name==="telephoneNumber" && !/^\d*$/.test(value)){
             error = "Telephone number must contain only number.";
-        }
+        }else if ((name === "firstName" || name === "lastName") && /[\d]/.test(value)) {
+          error = "Name must not contain numbers.";
+      }
         setErrors((prev) => ({...prev, [name]: error}));
         console.log(errors);
         return error ==="";
