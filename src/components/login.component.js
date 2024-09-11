@@ -64,7 +64,7 @@ export default class Login extends Component {
           } else {
             // this.props.history.push("/profile");
             const id = user.id;
-            this.props.history.push(`/api/company-admins/home`);
+            this.props.history.push(`/showCompanies`);
 
             
           }
