@@ -48,6 +48,7 @@ import CollectedHistory from "./components/CollectedHistory";
 import QRComponent from "./components/QRComponent"; 
 import RateCompanyComponent from "./components/RateCompanyComponent";
 import CustomAppointmentComponent from "./components/CustomAppointmentComponent";
+import CompanyContractsComponent from "./components/CompanyContractsComponent";
 
 class App extends Component {
   constructor(props) {
@@ -133,7 +134,14 @@ class App extends Component {
     }
   }
   render() {
+    
     const { currentUser, showCompanyAdminBoard, showSystemAdminBoard, showRegisteredUserBoard, lastVisitedUrl } = this.state;
+
+    // Determine the correct profile path based on the user's role
+    let profilePath = "/profile";
+    if (currentUser && currentUser.roles.includes("ROLE_COMPANY_ADMIN")) {
+      profilePath = "/api/company-admins/home";
+    }
 
     return (
       <div>
@@ -166,8 +174,8 @@ class App extends Component {
 
             {showCompanyAdminBoard && 
             <React.Fragment>
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
+             <li className="nav-item">
+                <Link to={profilePath} className="nav-link">
                   Profile
                 </Link>
               </li>
@@ -291,7 +299,7 @@ class App extends Component {
             <Route path="/activate" component={ActivateAccountComponent} exact/>
             <Route path="/signup" component={CreateUserComponent} exact/>
             <Route path="/api/company-admins/create" component={CreateCompanyAdminComponent} exact/>
-            <Route path="/api/company-admins/update/:id" component={UpdateCompanyAdminComponent} exact/>
+            <Route path="/api/company-admins/update" component={UpdateCompanyAdminComponent} exact/>
             <Route path="/api/equipment/ordering" component={EquipmentOrderingComponent} exact/>
             <Route path="/api/home-page/system-admin" component={SysAdminHomePageComponent} exact/>
             <Route path="/api/system-admins/create" component={CreateSystemAdminComponent} exact/>
@@ -307,6 +315,7 @@ class App extends Component {
             <Route path="/change-password" component={CompanyAdminChangePassword} exact />
             <Route path="/api/reservations/get-users" component={CompanyAdminReservationsViewComponent} exact />
             <Route path="/api/reservations/available" component={CompanyAdminAvailableReservationsComponent} exact />
+            <Route path="/api/contracts/active" component={CompanyContractsComponent} exact />
 
 
 

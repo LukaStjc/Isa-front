@@ -17,7 +17,9 @@ class CreatePredefinedReservation extends Component {
             adminId: '',
             companyId: props.match.params.id,
             user: JSON.parse(localStorage.getItem('user')) || {},
-            admins: []  // Moved inside the state object
+            admins: [],  // Moved inside the state object
+            companyOpeningTime: null,
+            companyClosingTime: null,
         };
 
         this.changeselectedDateTimeHandler = this.changeselectedDateTimeHandler.bind(this);
@@ -55,26 +57,36 @@ class CreatePredefinedReservation extends Component {
 
     saveReservation = async (e) => {
         e.preventDefault();
-
+    
         if (this.state.selectedDateTime === null) {
             console.log('Warning: Starting date and time is empty.');
             return; 
         }
-
+    
         let reservation = {
             selectedDateTime: this.state.selectedDateTime,
             durationMinutes: this.state.durationMinutes,
             adminId: this.state.adminId
         };
         console.log('reservation => ' + JSON.stringify(reservation));
-
+    
         try {
+            // Call the service to create the reservation
             await ReservationService.CreatePredefinedReservation(reservation);
+            
+            // If successful, redirect to another page
             this.props.history.push('/api/company-admin/company/' + this.state.companyId);
         } catch (error) {
-            console.error('Error creating reservation:', error);
+            console.log('Error object:', error); // Log the error object
+            if (error.response && error.response.status === 400) {
+                console.log('Backend error response:', error.response); // Log the error response
+                alert(error.response.data); // This should display the backend message
+            } else {
+                alert('An error occurred while creating the reservation. Please try again later.');
+            }
         }
     }
+    
 
     render() { 
         const buttonStyle = {

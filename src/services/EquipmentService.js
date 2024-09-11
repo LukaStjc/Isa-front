@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from './auth-header';
 
 const EQUIPMENT_API_BASE_URL = 'http://localhost:8082/api/equipment';
 
@@ -22,17 +23,33 @@ class EquipmentService {
     return axios.get(url);
   }
   createEquipment(equipmentDTO){
-    return axios.post(EQUIPMENT_API_BASE_URL, equipmentDTO)
-  }
+    return axios.post(EQUIPMENT_API_BASE_URL,  equipmentDTO, { headers: authHeader() }).catch(error => {
+      console.error('Error updating company:', error);
+      if (error.response) {
+          console.log('Response data:', error.response.data);
+          console.log('Response status:', error.response.status);
+      }
+  });
+}
   updateEquipment(equipmentId, equipmentDTO){
-    return axios.put(EQUIPMENT_API_BASE_URL+ '/update/' + equipmentId, equipmentDTO)
-  }
+    return axios.put(EQUIPMENT_API_BASE_URL+ '/update/' + equipmentId, equipmentDTO, { headers: authHeader() }).catch(error => {
+      console.error('Error updating company:', error);
+      if (error.response) {
+          console.log('Response data:', error.response.data);
+          console.log('Response status:', error.response.status);
+      }
+  });
+}
   deleteEquipment(equipmentId){
     return axios.delete(EQUIPMENT_API_BASE_URL+ '/' + equipmentId)
   }
   
   getEquipmentById(id){
     return axios.get(EQUIPMENT_API_BASE_URL + "/" + id)
+  }
+  getEquipmentTypes(){
+    return axios.get(EQUIPMENT_API_BASE_URL + "/get-types")
+    
   }
 }
 
